@@ -1,13 +1,16 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { bundle } from "@remotion/bundler";
-import { renderMedia, selectComposition } from "@remotion/renderer";
+import { openBrowser, renderMedia, selectComposition } from "@remotion/renderer";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "out");
+const CHUNK_FRAMES = 920;
+const WORKER_COUNT = 2;
 
 function findCachedChromium() {
   if (process.env.PLAYWRIGHT_CHROMIUM_PATH) {
@@ -35,47 +38,185 @@ function findCachedChromium() {
   return null;
 }
 
+function buildFrameChunks(totalFrames, chunkSize) {
+  const chunks = [];
+  for (let start = 0, idx = 0; start < totalFrames; start += chunkSize, idx += 1) {
+    const end = Math.min(totalFrames - 1, start + chunkSize - 1);
+    chunks.push({ idx, start, end });
+  }
+  return chunks;
+}
+
+async function renderChunkWithFreshBrowser({
+  serveUrl,
+  composition,
+  browserExecutable,
+  chunk,
+  chunkFile,
+}) {
+  const puppeteerInstance = await openBrowser("chrome", {
+    browserExecutable,
+    chromiumOptions: { gl: "angle" },
+  });
+  try {
+    await renderMedia({
+      composition,
+      serveUrl,
+      puppeteerInstance,
+      codec: "h264",
+      crf: 17,
+      pixelFormat: "yuv420p",
+      muted: true,
+      frameRange: [chunk.start, chunk.end],
+      outputLocation: chunkFile,
+      concurrency: 1,
+    });
+  } finally {
+    await puppeteerInstance.close({ silent: true }).catch(() => {});
+  }
+}
+
+async function renderCompositionChunked({
+  serveUrl,
+  id,
+  outFile,
+  audioPath,
+  browserExecutable,
+}) {
+  const startedAt = Date.now();
+  const outPath = path.join(OUT_DIR, outFile);
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), `paytable-render-${id}-`));
+
+  console.log(`[render] Selecting composition ${id}...`);
+  const composition = await selectComposition({
+    serveUrl,
+    id,
+    browserExecutable,
+    chromiumOptions: { gl: "angle" },
+  });
+
+  const chunks = buildFrameChunks(composition.durationInFrames, CHUNK_FRAMES);
+  console.log(
+    `[render] Rendering ${id} (${composition.durationInFrames} frames @ ${composition.fps}fps) across ${chunks.length} isolated browser chunks (workers=${WORKER_COUNT})...`
+  );
+
+  const chunkFiles = new Array(chunks.length);
+  let cursor = 0;
+
+  async function worker(workerId) {
+    while (true) {
+      const myIndex = cursor;
+      cursor += 1;
+      if (myIndex >= chunks.length) return;
+      const chunk = chunks[myIndex];
+      const chunkFile = path.join(
+        tmpDir,
+        `chunk-${String(chunk.idx).padStart(3, "0")}.mp4`
+      );
+      const t0 = Date.now();
+      console.log(
+        `[render] [w${workerId}] ${id} chunk ${chunk.idx + 1}/${chunks.length} frames ${chunk.start}..${chunk.end}`
+      );
+      await renderChunkWithFreshBrowser({
+        serveUrl,
+        composition,
+        browserExecutable,
+        chunk,
+        chunkFile,
+      });
+      chunkFiles[myIndex] = chunkFile;
+      console.log(
+        `[render] [w${workerId}] ${id} chunk ${chunk.idx + 1}/${chunks.length} done in ${((Date.now() - t0) / 1000).toFixed(1)}s`
+      );
+    }
+  }
+
+  await Promise.all(
+    Array.from({ length: Math.min(WORKER_COUNT, chunks.length) }, (_, i) =>
+      worker(i + 1)
+    )
+  );
+
+  const concatListPath = path.join(tmpDir, "concat.txt");
+  fs.writeFileSync(
+    concatListPath,
+    chunkFiles.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join("\n") + "\n",
+    "utf8"
+  );
+
+  const expectedSec = (composition.durationInFrames / composition.fps).toFixed(3);
+  console.log(`[render] Stitching ${chunks.length} lossless H.264 chunks + ${path.basename(audioPath)} -> ${outFile}...`);
+  execFileSync(
+    "ffmpeg",
+    [
+      "-y",
+      "-loglevel",
+      "error",
+      "-f",
+      "concat",
+      "-safe",
+      "0",
+      "-i",
+      concatListPath,
+      "-i",
+      audioPath,
+      "-c:v",
+      "copy",
+      "-c:a",
+      "aac",
+      "-b:a",
+      "192k",
+      "-ar",
+      "48000",
+      "-t",
+      expectedSec,
+      "-movflags",
+      "+faststart",
+      outPath,
+    ],
+    { stdio: "inherit" }
+  );
+
+  fs.rmSync(tmpDir, { recursive: true, force: true });
+  const sizeMb = (fs.statSync(outPath).size / (1024 * 1024)).toFixed(2);
+  const totalSec = ((Date.now() - startedAt) / 1000).toFixed(1);
+  console.log(`[render] Completed ${outFile} (${sizeMb} MB) in ${totalSec}s`);
+}
+
 async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const browserExecutable = findCachedChromium();
-  console.log("[render] Bundling Remotion project...");
+  if (!browserExecutable) {
+    throw new Error("Playwright Chromium binary not found in ~/Library/Caches/ms-playwright");
+  }
 
+  console.log("[render] Bundling Remotion project...");
   const serveUrl = await bundle({
     entryPoint: path.join(ROOT, "src", "index.ts"),
     publicDir: path.join(ROOT, "public"),
   });
 
   const targets = [
-    { id: "PayTableMaster", file: "paytable-hackathon-master.mp4" },
-    { id: "PayTableLaunch", file: "paytable-x-launch.mp4" },
+    {
+      id: "PayTableMaster",
+      file: "paytable-hackathon-master.mp4",
+      audio: path.join(ROOT, "public", "audio", "master-mix.wav"),
+    },
+    {
+      id: "PayTableLaunch",
+      file: "paytable-x-launch.mp4",
+      audio: path.join(ROOT, "public", "audio", "launch-mix.wav"),
+    },
   ];
 
   for (const t of targets) {
-    const outPath = path.join(OUT_DIR, t.file);
-    console.log(`[render] Selecting composition ${t.id}...`);
-    const composition = await selectComposition({
+    await renderCompositionChunked({
       serveUrl,
       id: t.id,
+      outFile: t.file,
+      audioPath: t.audio,
       browserExecutable,
-      chromiumOptions: { gl: "swangle" },
-      port: 4592,
     });
-    console.log(
-      `[render] Rendering ${t.id} (${composition.durationInFrames} frames @ ${composition.fps}fps) -> ${t.file}`
-    );
-    await renderMedia({
-      composition,
-      serveUrl,
-      codec: "h264",
-      audioCodec: "aac",
-      outputLocation: outPath,
-      browserExecutable,
-      chromiumOptions: { gl: "swangle" },
-      concurrency: 2,
-      port: 4592,
-    });
-    const sizeMb = (fs.statSync(outPath).size / (1024 * 1024)).toFixed(2);
-    console.log(`[render] Completed ${t.file} (${sizeMb} MB)`);
   }
 }
 

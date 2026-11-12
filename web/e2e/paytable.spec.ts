@@ -24,7 +24,7 @@ async function assertZeroHorizontalOverflowAndNoEmDashes(page: any) {
   expect(metrics.hasEmDash).toBe(false);
 }
 
-test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and responsive Sodium UI", async ({
+test("PayTable v2 linked wallet policy, 4-step guide, sound/music, interactive calculators, asciicn studio, and responsive Sodium UI", async ({
   page,
   request,
 }) => {
@@ -41,10 +41,13 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
     JSON.stringify(probeJson, null, 2)
   );
 
-  // 1. Desktop Dark (1280x800): Initial pre-staged linked wallet purchase awaiting human approval
+  // 1. Desktop Dark (1280x800): Initial pre-staged linked wallet purchase, 4-step guide, sound/score toggles
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/?theme=dark");
   await expect(page.getByRole("heading", { name: "PayTable" })).toBeVisible();
+  await expect(page.getByTestId("how-it-works-guide")).toBeVisible();
+  await expect(page.getByTestId("sfx-toggle-btn")).toBeVisible();
+  await expect(page.getByTestId("music-toggle-btn")).toBeVisible();
   await expect(page.getByTestId("approve-purchase-btn")).toContainText(
     "Approve $265.00 purchase"
   );
@@ -54,15 +57,40 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
     fullPage: false,
   });
 
-  // High-res 1920x1080 plate 01 for video: Awaiting Approval
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.waitForTimeout(180);
+  // Toggle ambient score and SFX safely
+  await page.getByTestId("music-toggle-btn").click();
+  await expect(page.getByTestId("music-toggle-btn")).toContainText("Score Playing");
+  await page.getByTestId("music-toggle-btn").click();
+  await expect(page.getByTestId("music-toggle-btn")).toContainText("Play Score");
+
+  // High-res 16:9 plate 01 for video: Awaiting Approval + 4-Step Guide + ASCII Hero Backdrop
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(220);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-01-awaiting-approval.png"),
   });
 
-  // 2. Approve linked-wallet purchase & verify SHA-256 mandate receipt dialog
+  // Collapse onboarding banner after plate-01 so plates 02..08 show full uncropped workspace panels
+  await page.getByTestId("guide-toggle-btn").click();
+  await expect(page.getByTestId("how-it-works-guide")).toBeHidden();
+
+  // Live Linked-Wallet Policy Cap tuner (POST /api/wallet/policy)
   await page.setViewportSize({ width: 1280, height: 800 });
+  await page.getByTestId("policy-single-cap-input").fill("900");
+  await page.getByTestId("policy-daily-cap-input").fill("2500");
+  await page.getByTestId("apply-wallet-policy-btn").click();
+  await expect(page.getByTestId("status-banner")).toContainText(
+    "Updated Linked Wallet caps: $900.00 per purchase, $2,500.00 daily."
+  );
+
+  // Reseed back to canonical $500/$1,500 caps before approving purchase
+  await page.getByTestId("reseed-btn").click();
+  await expect(page.getByTestId("approve-purchase-btn")).toContainText(
+    "Approve $265.00 purchase"
+  );
+
+  // 2. Approve linked-wallet purchase & verify SHA-256 mandate receipt dialog
   await page.getByTestId("approve-purchase-btn").click();
   await expect(page.getByTestId("status-banner")).toContainText(
     "Approved & settled"
@@ -73,8 +101,8 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
     fullPage: false,
   });
 
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.waitForTimeout(180);
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.waitForTimeout(200);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-02-approved-settled.png"),
   });
@@ -85,17 +113,28 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
   await expect(
     page.getByRole("heading", { name: /mandate receipt/i })
   ).toBeVisible();
+  await page.setViewportSize({ width: 1600, height: 900 });
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-03-mandate-dialog.png"),
   });
   await page.keyboard.press("Escape");
 
-  // 3. Cycle through remaining 4 official PayPal Developer Hackathon tracks
+  // 3. Cycle through remaining 4 official PayPal Developer Hackathon tracks + interactive calculators
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.getByTestId("track-preset-group_dinner_split").click();
   await expect(page.getByTestId("approve-purchase-btn")).toContainText(
     "Approve $168.00 purchase"
   );
-  await page.setViewportSize({ width: 1440, height: 900 });
+  // Test interactive Dinner QR Split calculator (6 diners -> $28.00/person)
+  await page.getByTestId("dinner-count-select").selectOption("6");
+  await expect(page.getByText("$28.00/person")).toBeVisible();
+  await page.getByTestId("restage-dinner-split-btn").click();
+  await expect(page.getByTestId("approve-purchase-btn")).toContainText(
+    "Approve $168.00 purchase"
+  );
+
+  await page.setViewportSize({ width: 1600, height: 900 });
+  await page.waitForTimeout(180);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-04-dinner-qr-split.png"),
   });
@@ -108,6 +147,7 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
   await expect(page.getByTestId("approve-purchase-btn")).toContainText(
     "Approve $453.60 purchase"
   );
+  await page.waitForTimeout(180);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-05-fx-creator-split.png"),
   });
@@ -122,9 +162,10 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
     "Approve $240.00 purchase"
   );
 
-  // 4. Verify [02] Ledger (AG Grid v36) & [03] Schedule & SDK tabs
+  // 4. Verify [02] Ledger (AG Grid v36), [03] Schedule & SDK, and [04] Launch & ASCII Studio tabs
   await page.getByTestId("tab-ledger").click();
   await expect(page.getByText("sandbox-reconciliation-ledger")).toBeVisible();
+  await page.waitForTimeout(180);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-06-aggrid-ledger.png"),
   });
@@ -132,9 +173,29 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
   await page.getByTestId("tab-schedule").click();
   await expect(page.getByText("milestone-payout-schedule")).toBeVisible();
   await expect(page.getByText("paypal-mcp-apimatic-contracts")).toBeVisible();
+  await page.waitForTimeout(180);
   await page.screenshot({
     path: path.join(PLATES_DIR, "plate-07-schedule-sdk.png"),
   });
+
+  // [04] Launch & ASCII Studio (asciicn 3D scenes, shaders, .txt/.svg/.png/.webm export, agent prompt)
+  await page.getByTestId("tab-studio").click();
+  await expect(page.getByTestId("ascii-studio-frame")).toBeVisible();
+  await page.getByTestId("ascii-scene-donut").click();
+  await page.waitForTimeout(260);
+  await page.getByTestId("ascii-scene-globe").click();
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  await page.screenshot({
+    path: path.join(PLATES_DIR, "plate-08-ascii-studio.png"),
+  });
+
+  await page.getByTestId("export-ascii-txt-btn").click();
+  await expect(page.getByTestId("ascii-txt-preview")).toBeVisible();
+  const txtPreview = await page.getByTestId("ascii-txt-preview").innerText();
+  expect(txtPreview.trim().length).toBeGreaterThan(20);
+  await page.getByTestId("copy-agent-prompt-btn").click();
+  await assertZeroHorizontalOverflowAndNoEmDashes(page);
 
   // 5. Light mode + Adversarial QA guardrails (?debug=1)
   await page.getByTestId("tab-tabletop").click();
@@ -167,7 +228,7 @@ test("PayTable linked wallet human approval, 5 PayPal tracks, QA guardrails, and
   // 6. Mobile viewport (390x844) Before & After
   await page.getByTestId("reseed-btn").click();
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.waitForTimeout(150);
+  await page.waitForTimeout(180);
   await assertZeroHorizontalOverflowAndNoEmDashes(page);
   await page.screenshot({
     path: path.join(QA_DIR, "before-mobile.png"),

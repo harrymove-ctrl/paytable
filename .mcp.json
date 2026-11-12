@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "elevenlabs": {
+      "command": "uvx",
+      "args": ["elevenlabs-mcp"],
+      "env": {
+        "ELEVENLABS_API_KEY": "${ELEVENLABS_API_KEY}"
+      }
+    },
+    "paypal": {
+      "command": "npx",
+      "args": ["-y", "@paypal/mcp", "--tools=all"],
+      "env": {
+        "PAYPAL_ACCESS_TOKEN": "${PAYPAL_ACCESS_TOKEN}",
+        "PAYPAL_ENVIRONMENT": "SANDBOX"
+      }
+    }
+  }
+}

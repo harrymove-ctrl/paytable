@@ -1,101 +1,2400 @@
 {
-  "fps": 30,
+  "fps": 60,
   "width": 1920,
   "height": 1080,
-  "voice_provider": "local_neural_say",
-  "launch_voice_provider": "local_neural_say",
-  "master_total_frames": 2400,
-  "launch_total_frames": 1200,
+  "voice_provider": "studio_neural_dual_host_edge_tts",
+  "launch_voice_provider": "studio_neural_dual_host_edge_tts",
+  "voices": {
+    "alex": {
+      "label": "Alex",
+      "role": "Product Lead",
+      "accent": "#22D7DA"
+    },
+    "maya": {
+      "label": "Maya",
+      "role": "Systems Architect",
+      "accent": "#FFD244"
+    }
+  },
+  "master_total_frames": 5520,
+  "launch_total_frames": 3480,
   "master_scenes": [
     {
-      "id": "s01_hook",
+      "id": "m01_cosmic_problem",
+      "act": 1,
+      "speaker": "alex",
       "start_frame": 0,
-      "duration_frames": 270,
-      "voice_offset_sec": 0.35,
-      "text": "PayPal just opened a huge door. New linked wallets for agents mean an AI agent can spend on your behalf, with approval on every purchase.",
-      "caption": "PayPal linked wallets let AI agents spend on your behalf, with approval on every purchase."
+      "duration_frames": 540,
+      "voice_offset_sec": 0.45,
+      "text": "AI agents can plan trips, compare prices, and negotiate deals in seconds. Until today, the moment it was time to actually pay, everything stopped.",
+      "caption": "AI agents negotiate deals in seconds, until checkout stops them cold.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 8.354,
+      "words": [
+        {
+          "word": "AI",
+          "start": 0.081,
+          "end": 0.425
+        },
+        {
+          "word": "agents",
+          "start": 0.486,
+          "end": 0.861
+        },
+        {
+          "word": "can",
+          "start": 0.861,
+          "end": 0.982
+        },
+        {
+          "word": "plan",
+          "start": 0.982,
+          "end": 1.265
+        },
+        {
+          "word": "trips",
+          "start": 1.265,
+          "end": 1.761
+        },
+        {
+          "word": "compare",
+          "start": 1.914,
+          "end": 2.227
+        },
+        {
+          "word": "prices",
+          "start": 2.227,
+          "end": 2.723
+        },
+        {
+          "word": "and",
+          "start": 2.906,
+          "end": 2.977
+        },
+        {
+          "word": "negotiate",
+          "start": 2.987,
+          "end": 3.544
+        },
+        {
+          "word": "deals",
+          "start": 3.554,
+          "end": 3.857
+        },
+        {
+          "word": "in",
+          "start": 3.857,
+          "end": 3.928
+        },
+        {
+          "word": "seconds",
+          "start": 3.939,
+          "end": 4.444
+        },
+        {
+          "word": "Until",
+          "start": 4.759,
+          "end": 5.053
+        },
+        {
+          "word": "today",
+          "start": 5.063,
+          "end": 5.457
+        },
+        {
+          "word": "the",
+          "start": 5.67,
+          "end": 5.741
+        },
+        {
+          "word": "moment",
+          "start": 5.751,
+          "end": 5.994
+        },
+        {
+          "word": "it",
+          "start": 6.004,
+          "end": 6.044
+        },
+        {
+          "word": "was",
+          "start": 6.055,
+          "end": 6.146
+        },
+        {
+          "word": "time",
+          "start": 6.146,
+          "end": 6.379
+        },
+        {
+          "word": "to",
+          "start": 6.379,
+          "end": 6.439
+        },
+        {
+          "word": "actually",
+          "start": 6.449,
+          "end": 6.753
+        },
+        {
+          "word": "pay",
+          "start": 6.753,
+          "end": 7.107
+        },
+        {
+          "word": "everything",
+          "start": 7.32,
+          "end": 7.665
+        },
+        {
+          "word": "stopped",
+          "start": 7.665,
+          "end": 8.1
+        }
+      ]
     },
     {
-      "id": "s02_tabletop",
-      "start_frame": 270,
-      "duration_frames": 300,
+      "id": "m02_cosmic_launch",
+      "act": 1,
+      "speaker": "maya",
+      "start_frame": 540,
+      "duration_frames": 540,
+      "voice_offset_sec": 0.28,
+      "text": "Because nobody wants a bot touching their raw credit card. That changes with PayPal Linked Wallets for agents, and today we are launching PayTable.",
+      "caption": "Launching PayTable: collaborative PayPal Linked Wallets for AI agents.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 8.519,
+      "words": [
+        {
+          "word": "Because",
+          "start": 0.07,
+          "end": 0.455
+        },
+        {
+          "word": "nobody",
+          "start": 0.467,
+          "end": 0.887
+        },
+        {
+          "word": "wants",
+          "start": 0.899,
+          "end": 1.097
+        },
+        {
+          "word": "a",
+          "start": 1.109,
+          "end": 1.156
+        },
+        {
+          "word": "bot",
+          "start": 1.167,
+          "end": 1.401
+        },
+        {
+          "word": "touching",
+          "start": 1.412,
+          "end": 1.739
+        },
+        {
+          "word": "their",
+          "start": 1.739,
+          "end": 1.925
+        },
+        {
+          "word": "raw",
+          "start": 1.937,
+          "end": 2.17
+        },
+        {
+          "word": "credit",
+          "start": 2.182,
+          "end": 2.474
+        },
+        {
+          "word": "card",
+          "start": 2.486,
+          "end": 2.824
+        },
+        {
+          "word": "That",
+          "start": 3.198,
+          "end": 3.35
+        },
+        {
+          "word": "changes",
+          "start": 3.361,
+          "end": 3.816
+        },
+        {
+          "word": "with",
+          "start": 3.828,
+          "end": 4.026
+        },
+        {
+          "word": "PayPal",
+          "start": 4.038,
+          "end": 4.587
+        },
+        {
+          "word": "Linked",
+          "start": 4.597,
+          "end": 4.785
+        },
+        {
+          "word": "Wallets",
+          "start": 4.796,
+          "end": 5.135
+        },
+        {
+          "word": "for",
+          "start": 5.135,
+          "end": 5.287
+        },
+        {
+          "word": "agents",
+          "start": 5.298,
+          "end": 5.777
+        },
+        {
+          "word": "and",
+          "start": 6.022,
+          "end": 6.372
+        },
+        {
+          "word": "today",
+          "start": 6.524,
+          "end": 6.838
+        },
+        {
+          "word": "we",
+          "start": 6.85,
+          "end": 6.967
+        },
+        {
+          "word": "are",
+          "start": 6.978,
+          "end": 7.072
+        },
+        {
+          "word": "launching",
+          "start": 7.072,
+          "end": 7.55
+        },
+        {
+          "word": "PayTable",
+          "start": 7.562,
+          "end": 8.216
+        }
+      ]
+    },
+    {
+      "id": "m03_step_one",
+      "act": 2,
+      "speaker": "alex",
+      "start_frame": 1080,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.32,
+      "text": "Here is how you use PayTable in four clear steps. First, pick an everyday preset or type an at paytable prompt on the shared tabletop.",
+      "caption": "Step 1: Pick any everyday preset or prompt @paytable on the shared tabletop.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 7.479,
+      "words": [
+        {
+          "word": "Here",
+          "start": 0.087,
+          "end": 0.271
+        },
+        {
+          "word": "is",
+          "start": 0.436,
+          "end": 0.494
+        },
+        {
+          "word": "how",
+          "start": 0.503,
+          "end": 0.59
+        },
+        {
+          "word": "you",
+          "start": 0.59,
+          "end": 0.677
+        },
+        {
+          "word": "use",
+          "start": 0.677,
+          "end": 0.91
+        },
+        {
+          "word": "PayTable",
+          "start": 0.91,
+          "end": 1.5
+        },
+        {
+          "word": "in",
+          "start": 1.655,
+          "end": 1.761
+        },
+        {
+          "word": "four",
+          "start": 1.772,
+          "end": 2.072
+        },
+        {
+          "word": "clear",
+          "start": 2.072,
+          "end": 2.265
+        },
+        {
+          "word": "steps",
+          "start": 2.265,
+          "end": 2.72
+        },
+        {
+          "word": "First",
+          "start": 3.059,
+          "end": 3.417
+        },
+        {
+          "word": "pick",
+          "start": 3.591,
+          "end": 3.727
+        },
+        {
+          "word": "an",
+          "start": 3.727,
+          "end": 3.834
+        },
+        {
+          "word": "everyday",
+          "start": 3.843,
+          "end": 4.211
+        },
+        {
+          "word": "preset",
+          "start": 4.211,
+          "end": 4.772
+        },
+        {
+          "word": "or",
+          "start": 4.995,
+          "end": 5.111
+        },
+        {
+          "word": "type",
+          "start": 5.121,
+          "end": 5.402
+        },
+        {
+          "word": "an",
+          "start": 5.508,
+          "end": 5.586
+        },
+        {
+          "word": "at",
+          "start": 5.586,
+          "end": 5.644
+        },
+        {
+          "word": "paytable",
+          "start": 5.644,
+          "end": 6.031
+        },
+        {
+          "word": "prompt",
+          "start": 6.031,
+          "end": 6.38
+        },
+        {
+          "word": "on",
+          "start": 6.38,
+          "end": 6.428
+        },
+        {
+          "word": "the",
+          "start": 6.428,
+          "end": 6.467
+        },
+        {
+          "word": "shared",
+          "start": 6.467,
+          "end": 6.718
+        },
+        {
+          "word": "tabletop",
+          "start": 6.718,
+          "end": 7.212
+        }
+      ]
+    },
+    {
+      "id": "m04_step_two",
+      "act": 2,
+      "speaker": "maya",
+      "start_frame": 1560,
+      "duration_frames": 510,
+      "voice_offset_sec": 0.25,
+      "text": "Second, watch Pip search live catalogs, compare three merchant quotes, and negotiate a studio monitor down from three hundred ten dollars to two sixty five.",
+      "caption": "Step 2: Agent compares 3 quotes ($310 down to $265) and pauses at the human gate.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 8.05,
+      "words": [
+        {
+          "word": "Second",
+          "start": 0.069,
+          "end": 0.448
+        },
+        {
+          "word": "watch",
+          "start": 0.777,
+          "end": 1.036
+        },
+        {
+          "word": "Pip",
+          "start": 1.046,
+          "end": 1.245
+        },
+        {
+          "word": "search",
+          "start": 1.255,
+          "end": 1.514
+        },
+        {
+          "word": "live",
+          "start": 1.514,
+          "end": 1.732
+        },
+        {
+          "word": "catalogs",
+          "start": 1.742,
+          "end": 2.221
+        },
+        {
+          "word": "compare",
+          "start": 2.45,
+          "end": 2.778
+        },
+        {
+          "word": "three",
+          "start": 2.788,
+          "end": 3.057
+        },
+        {
+          "word": "merchant",
+          "start": 3.067,
+          "end": 3.326
+        },
+        {
+          "word": "quotes",
+          "start": 3.326,
+          "end": 3.634
+        },
+        {
+          "word": "and",
+          "start": 3.843,
+          "end": 3.953
+        },
+        {
+          "word": "negotiate",
+          "start": 3.963,
+          "end": 4.441
+        },
+        {
+          "word": "a",
+          "start": 4.451,
+          "end": 4.491
+        },
+        {
+          "word": "studio",
+          "start": 4.501,
+          "end": 4.899
+        },
+        {
+          "word": "monitor",
+          "start": 4.899,
+          "end": 5.198
+        },
+        {
+          "word": "down",
+          "start": 5.208,
+          "end": 5.487
+        },
+        {
+          "word": "from",
+          "start": 5.496,
+          "end": 5.695
+        },
+        {
+          "word": "three",
+          "start": 5.705,
+          "end": 5.975
+        },
+        {
+          "word": "hundred",
+          "start": 5.985,
+          "end": 6.253
+        },
+        {
+          "word": "ten",
+          "start": 6.263,
+          "end": 6.472
+        },
+        {
+          "word": "dollars",
+          "start": 6.482,
+          "end": 6.861
+        },
+        {
+          "word": "to",
+          "start": 6.871,
+          "end": 6.941
+        },
+        {
+          "word": "two",
+          "start": 6.951,
+          "end": 7.13
+        },
+        {
+          "word": "sixty",
+          "start": 7.14,
+          "end": 7.398
+        },
+        {
+          "word": "five",
+          "start": 7.408,
+          "end": 7.786
+        }
+      ]
+    },
+    {
+      "id": "m05_step_three_four",
+      "act": 2,
+      "speaker": "alex",
+      "start_frame": 2070,
+      "duration_frames": 450,
+      "voice_offset_sec": 0.25,
+      "text": "Third, tune your wallet spend cap live, tap the yellow Approve button once, and fourth, inspect your signed mandate receipt.",
+      "caption": "Step 3 & 4: Tune wallet caps live, tap Approve once, and inspect your receipt.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 7.046,
+      "words": [
+        {
+          "word": "Third",
+          "start": 0.129,
+          "end": 0.541
+        },
+        {
+          "word": "tune",
+          "start": 0.776,
+          "end": 1.0
+        },
+        {
+          "word": "your",
+          "start": 1.0,
+          "end": 1.118
+        },
+        {
+          "word": "wallet",
+          "start": 1.118,
+          "end": 1.411
+        },
+        {
+          "word": "spend",
+          "start": 1.423,
+          "end": 1.765
+        },
+        {
+          "word": "cap",
+          "start": 1.765,
+          "end": 2.035
+        },
+        {
+          "word": "live",
+          "start": 2.035,
+          "end": 2.376
+        },
+        {
+          "word": "tap",
+          "start": 2.623,
+          "end": 2.847
+        },
+        {
+          "word": "the",
+          "start": 2.847,
+          "end": 2.906
+        },
+        {
+          "word": "yellow",
+          "start": 2.906,
+          "end": 3.246
+        },
+        {
+          "word": "Approve",
+          "start": 3.246,
+          "end": 3.576
+        },
+        {
+          "word": "button",
+          "start": 3.576,
+          "end": 3.811
+        },
+        {
+          "word": "once",
+          "start": 3.811,
+          "end": 4.188
+        },
+        {
+          "word": "and",
+          "start": 4.2,
+          "end": 4.305
+        },
+        {
+          "word": "fourth",
+          "start": 4.317,
+          "end": 4.835
+        },
+        {
+          "word": "inspect",
+          "start": 5.07,
+          "end": 5.529
+        },
+        {
+          "word": "your",
+          "start": 5.529,
+          "end": 5.634
+        },
+        {
+          "word": "signed",
+          "start": 5.634,
+          "end": 5.952
+        },
+        {
+          "word": "mandate",
+          "start": 5.964,
+          "end": 6.293
+        },
+        {
+          "word": "receipt",
+          "start": 6.305,
+          "end": 6.74
+        }
+      ]
+    },
+    {
+      "id": "m06_rust_laser_cap",
+      "act": 3,
+      "speaker": "maya",
+      "start_frame": 2520,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.32,
+      "text": "Inside our Rust settlement lab, Vaulty guards every dollar. Any quote over your five hundred dollar single cap hits a laser gate and fails closed.",
+      "caption": "Rust Vault Guardrail: quotes above your $500 single cap fail closed immediately.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 7.484,
+      "words": [
+        {
+          "word": "Inside",
+          "start": 0.066,
+          "end": 0.466
+        },
+        {
+          "word": "our",
+          "start": 0.476,
+          "end": 0.599
+        },
+        {
+          "word": "Rust",
+          "start": 0.609,
+          "end": 0.838
+        },
+        {
+          "word": "settlement",
+          "start": 0.847,
+          "end": 1.123
+        },
+        {
+          "word": "lab",
+          "start": 1.133,
+          "end": 1.399
+        },
+        {
+          "word": "Vaulty",
+          "start": 1.76,
+          "end": 2.036
+        },
+        {
+          "word": "guards",
+          "start": 2.046,
+          "end": 2.331
+        },
+        {
+          "word": "every",
+          "start": 2.398,
+          "end": 2.578
+        },
+        {
+          "word": "dollar",
+          "start": 2.588,
+          "end": 2.94
+        },
+        {
+          "word": "Any",
+          "start": 3.226,
+          "end": 3.387
+        },
+        {
+          "word": "quote",
+          "start": 3.397,
+          "end": 3.682
+        },
+        {
+          "word": "over",
+          "start": 3.73,
+          "end": 3.882
+        },
+        {
+          "word": "your",
+          "start": 3.882,
+          "end": 3.996
+        },
+        {
+          "word": "five",
+          "start": 3.996,
+          "end": 4.244
+        },
+        {
+          "word": "hundred",
+          "start": 4.253,
+          "end": 4.453
+        },
+        {
+          "word": "dollar",
+          "start": 4.462,
+          "end": 4.662
+        },
+        {
+          "word": "single",
+          "start": 4.672,
+          "end": 4.862
+        },
+        {
+          "word": "cap",
+          "start": 4.871,
+          "end": 5.157
+        },
+        {
+          "word": "hits",
+          "start": 5.385,
+          "end": 5.528
+        },
+        {
+          "word": "a",
+          "start": 5.538,
+          "end": 5.585
+        },
+        {
+          "word": "laser",
+          "start": 5.595,
+          "end": 5.861
+        },
+        {
+          "word": "gate",
+          "start": 5.87,
+          "end": 6.089
+        },
+        {
+          "word": "and",
+          "start": 6.308,
+          "end": 6.442
+        },
+        {
+          "word": "fails",
+          "start": 6.451,
+          "end": 6.793
+        },
+        {
+          "word": "closed",
+          "start": 6.803,
+          "end": 7.231
+        }
+      ]
+    },
+    {
+      "id": "m07_mandate_crystal",
+      "act": 3,
+      "speaker": "alex",
+      "start_frame": 3000,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.25,
+      "text": "When you flip the orange human switch, Rust mints a SHA two fifty six mandate stamp, captures PayPal Orders v2, and blocks duplicate replays.",
+      "caption": "Human switch mints a SHA-256 mandate, captures PayPal Orders v2, and blocks replays.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 7.621,
+      "words": [
+        {
+          "word": "When",
+          "start": 0.076,
+          "end": 0.143
+        },
+        {
+          "word": "you",
+          "start": 0.152,
+          "end": 0.229
+        },
+        {
+          "word": "flip",
+          "start": 0.238,
+          "end": 0.42
+        },
+        {
+          "word": "the",
+          "start": 0.42,
+          "end": 0.487
+        },
+        {
+          "word": "orange",
+          "start": 0.496,
+          "end": 0.773
+        },
+        {
+          "word": "human",
+          "start": 0.773,
+          "end": 0.963
+        },
+        {
+          "word": "switch",
+          "start": 0.963,
+          "end": 1.345
+        },
+        {
+          "word": "Rust",
+          "start": 1.564,
+          "end": 1.765
+        },
+        {
+          "word": "mints",
+          "start": 1.765,
+          "end": 1.946
+        },
+        {
+          "word": "a",
+          "start": 2.003,
+          "end": 2.07
+        },
+        {
+          "word": "SHA",
+          "start": 2.07,
+          "end": 2.642
+        },
+        {
+          "word": "two",
+          "start": 2.776,
+          "end": 2.976
+        },
+        {
+          "word": "fifty",
+          "start": 2.986,
+          "end": 3.224
+        },
+        {
+          "word": "six",
+          "start": 3.224,
+          "end": 3.425
+        },
+        {
+          "word": "mandate",
+          "start": 3.434,
+          "end": 3.768
+        },
+        {
+          "word": "stamp",
+          "start": 3.778,
+          "end": 4.092
+        },
+        {
+          "word": "captures",
+          "start": 4.388,
+          "end": 4.702
+        },
+        {
+          "word": "PayPal",
+          "start": 4.703,
+          "end": 5.132
+        },
+        {
+          "word": "Orders",
+          "start": 5.17,
+          "end": 5.409
+        },
+        {
+          "word": "v2",
+          "start": 5.409,
+          "end": 5.876
+        },
+        {
+          "word": "and",
+          "start": 6.086,
+          "end": 6.162
+        },
+        {
+          "word": "blocks",
+          "start": 6.162,
+          "end": 6.487
+        },
+        {
+          "word": "duplicate",
+          "start": 6.496,
+          "end": 6.83
+        },
+        {
+          "word": "replays",
+          "start": 6.84,
+          "end": 7.355
+        }
+      ]
+    },
+    {
+      "id": "m08_dinner_and_fx",
+      "act": 4,
+      "speaker": "maya",
+      "start_frame": 3480,
+      "duration_frames": 450,
       "voice_offset_sec": 0.3,
-      "text": "Meet PayTable. One shared tabletop where you prompt at paytable to shop, split group bills, invoice overseas clients, and move real money.",
-      "caption": "Meet PayTable: one shared tabletop to prompt @paytable and move real Sandbox funds."
+      "text": "Every preset ships live calculators right on screen: split dinner receipts with tip by PayPal QR, or bill Berlin in euros with four-part Pay Later.",
+      "caption": "Live calculators: QR Dinner Receipt Split + EUR Pay Later & Creator Payouts.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 7.034,
+      "words": [
+        {
+          "word": "Every",
+          "start": 0.066,
+          "end": 0.264
+        },
+        {
+          "word": "preset",
+          "start": 0.274,
+          "end": 0.633
+        },
+        {
+          "word": "ships",
+          "start": 0.633,
+          "end": 0.898
+        },
+        {
+          "word": "live",
+          "start": 0.907,
+          "end": 1.134
+        },
+        {
+          "word": "calculators",
+          "start": 1.143,
+          "end": 1.644
+        },
+        {
+          "word": "right",
+          "start": 1.653,
+          "end": 1.814
+        },
+        {
+          "word": "on",
+          "start": 1.824,
+          "end": 1.928
+        },
+        {
+          "word": "screen",
+          "start": 1.937,
+          "end": 2.267
+        },
+        {
+          "word": "split",
+          "start": 2.627,
+          "end": 2.853
+        },
+        {
+          "word": "dinner",
+          "start": 2.853,
+          "end": 3.005
+        },
+        {
+          "word": "receipts",
+          "start": 3.014,
+          "end": 3.344
+        },
+        {
+          "word": "with",
+          "start": 3.344,
+          "end": 3.458
+        },
+        {
+          "word": "tip",
+          "start": 3.467,
+          "end": 3.704
+        },
+        {
+          "word": "by",
+          "start": 3.704,
+          "end": 3.808
+        },
+        {
+          "word": "PayPal",
+          "start": 3.817,
+          "end": 4.214
+        },
+        {
+          "word": "QR",
+          "start": 4.223,
+          "end": 4.573
+        },
+        {
+          "word": "or",
+          "start": 4.904,
+          "end": 5.036
+        },
+        {
+          "word": "bill",
+          "start": 5.045,
+          "end": 5.178
+        },
+        {
+          "word": "Berlin",
+          "start": 5.178,
+          "end": 5.442
+        },
+        {
+          "word": "in",
+          "start": 5.442,
+          "end": 5.508
+        },
+        {
+          "word": "euros",
+          "start": 5.517,
+          "end": 5.867
+        },
+        {
+          "word": "with",
+          "start": 5.867,
+          "end": 5.981
+        },
+        {
+          "word": "four-part",
+          "start": 5.99,
+          "end": 6.34
+        },
+        {
+          "word": "Pay",
+          "start": 6.349,
+          "end": 6.463
+        },
+        {
+          "word": "Later",
+          "start": 6.472,
+          "end": 6.775
+        }
+      ]
     },
     {
-      "id": "s03_gate",
-      "start_frame": 570,
-      "duration_frames": 420,
-      "voice_offset_sec": 0.35,
-      "text": "Watch an agent source a studio monitor across three merchants, negotiate the price down to two hundred sixty five dollars, and pause right at the orange human gate.",
-      "caption": "Channel3 catalog search + A2A quote negotiation ($310 to $265), paused at Needs Approval."
-    },
-    {
-      "id": "s04_settle",
-      "start_frame": 990,
+      "id": "m09_shield_solar_aggrid",
+      "act": 4,
+      "speaker": "alex",
+      "start_frame": 3930,
       "duration_frames": 390,
-      "voice_offset_sec": 0.35,
-      "text": "Nothing leaves your PayPal wallet until you click Approve. One tap signs a cryptographic mandate, captures the Sandbox order, and locks carrier tracking.",
-      "caption": "One tap signs a SHA-256 mandate, captures PayPal Orders v2, and registers Shipment Tracking."
+      "voice_offset_sec": 0.24,
+      "text": "Hold duplicate subscriptions behind a dispute shield, pool neighborhood solar shares, and audit every cent in AG Grid.",
+      "caption": "Dispute Shield, Neighborhood Solar Pool, and live AG Grid v36 reconciliation.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 6.458,
+      "words": [
+        {
+          "word": "Hold",
+          "start": 0.086,
+          "end": 0.287
+        },
+        {
+          "word": "duplicate",
+          "start": 0.334,
+          "end": 0.648
+        },
+        {
+          "word": "subscriptions",
+          "start": 0.658,
+          "end": 1.144
+        },
+        {
+          "word": "behind",
+          "start": 1.144,
+          "end": 1.45
+        },
+        {
+          "word": "a",
+          "start": 1.45,
+          "end": 1.482
+        },
+        {
+          "word": "dispute",
+          "start": 1.488,
+          "end": 1.927
+        },
+        {
+          "word": "shield",
+          "start": 1.927,
+          "end": 2.366
+        },
+        {
+          "word": "pool",
+          "start": 2.671,
+          "end": 2.9
+        },
+        {
+          "word": "neighborhood",
+          "start": 2.9,
+          "end": 3.282
+        },
+        {
+          "word": "solar",
+          "start": 3.291,
+          "end": 3.615
+        },
+        {
+          "word": "shares",
+          "start": 3.625,
+          "end": 4.035
+        },
+        {
+          "word": "and",
+          "start": 4.225,
+          "end": 4.379
+        },
+        {
+          "word": "audit",
+          "start": 4.388,
+          "end": 4.664
+        },
+        {
+          "word": "every",
+          "start": 4.808,
+          "end": 5.046
+        },
+        {
+          "word": "cent",
+          "start": 5.056,
+          "end": 5.352
+        },
+        {
+          "word": "in",
+          "start": 5.428,
+          "end": 5.542
+        },
+        {
+          "word": "AG",
+          "start": 5.628,
+          "end": 5.914
+        },
+        {
+          "word": "Grid",
+          "start": 5.914,
+          "end": 6.19
+        }
+      ]
     },
     {
-      "id": "s05_tracks",
-      "start_frame": 1380,
-      "duration_frames": 420,
-      "voice_offset_sec": 0.35,
-      "text": "Switch presets in one click: scan a dinner receipt into PayPal QR shares, bill Berlin in euros with Pay Later, flag duplicate subscriptions, or pool neighborhood solar funds.",
-      "caption": "All 5 PayPal tracks: QR Dinner Split, EUR Pay Later + Creator Split, Budget Shield, Solar Pool."
+      "id": "m10_asciicn_studio",
+      "act": 5,
+      "speaker": "maya",
+      "start_frame": 4320,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.3,
+      "text": "Open tab four for our built-in asciicn studio: sixty four shadcn ASCII effects, rotating 3D globes, shaders, and live Web Audio soundtracks.",
+      "caption": "Tab [04] asciicn Studio: 3D globes, shaders, text effects, and Web Audio score.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 7.453,
+      "words": [
+        {
+          "word": "Open",
+          "start": 0.056,
+          "end": 0.245
+        },
+        {
+          "word": "tab",
+          "start": 0.255,
+          "end": 0.444
+        },
+        {
+          "word": "four",
+          "start": 0.444,
+          "end": 0.68
+        },
+        {
+          "word": "for",
+          "start": 0.69,
+          "end": 0.794
+        },
+        {
+          "word": "our",
+          "start": 0.794,
+          "end": 0.888
+        },
+        {
+          "word": "built-in",
+          "start": 0.898,
+          "end": 1.238
+        },
+        {
+          "word": "asciicn",
+          "start": 1.247,
+          "end": 1.597
+        },
+        {
+          "word": "studio",
+          "start": 1.597,
+          "end": 1.946
+        },
+        {
+          "word": "sixty",
+          "start": 2.325,
+          "end": 2.598
+        },
+        {
+          "word": "four",
+          "start": 2.598,
+          "end": 2.797
+        },
+        {
+          "word": "shadcn",
+          "start": 2.806,
+          "end": 3.146
+        },
+        {
+          "word": "ASCII",
+          "start": 3.156,
+          "end": 3.402
+        },
+        {
+          "word": "effects",
+          "start": 3.402,
+          "end": 3.741
+        },
+        {
+          "word": "rotating",
+          "start": 3.921,
+          "end": 4.299
+        },
+        {
+          "word": "3D",
+          "start": 4.309,
+          "end": 4.677
+        },
+        {
+          "word": "globes",
+          "start": 4.687,
+          "end": 5.064
+        },
+        {
+          "word": "shaders",
+          "start": 5.263,
+          "end": 5.716
+        },
+        {
+          "word": "and",
+          "start": 5.725,
+          "end": 5.877
+        },
+        {
+          "word": "live",
+          "start": 5.887,
+          "end": 6.17
+        },
+        {
+          "word": "Web",
+          "start": 6.179,
+          "end": 6.33
+        },
+        {
+          "word": "Audio",
+          "start": 6.368,
+          "end": 6.613
+        },
+        {
+          "word": "soundtracks",
+          "start": 6.623,
+          "end": 7.19
+        }
+      ]
     },
     {
-      "id": "s06_ledger",
-      "start_frame": 1800,
-      "duration_frames": 360,
-      "voice_offset_sec": 0.35,
-      "text": "Every run reconciles live in AG Grid, while the Rust engine blocks overspend caps, catches card declines, and rejects duplicate replay keys.",
-      "caption": "Live AG Grid v36 ledger, APIMatic + MCP contracts, and fail-closed Rust spend guardrails."
+      "id": "m11_asciicn_export",
+      "act": 5,
+      "speaker": "alex",
+      "start_frame": 4710,
+      "duration_frames": 330,
+      "voice_offset_sec": 0.22,
+      "text": "Export frames to text, SVG, PNG, or WebM video, where one prompt teaches your coding agent.",
+      "caption": "Export frames to .txt, .svg, .png, or .webm video. One prompt teaches your agent.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 6.363,
+      "words": [
+        {
+          "word": "Export",
+          "start": 0.067,
+          "end": 0.382
+        },
+        {
+          "word": "frames",
+          "start": 0.382,
+          "end": 0.763
+        },
+        {
+          "word": "to",
+          "start": 0.773,
+          "end": 0.849
+        },
+        {
+          "word": "text",
+          "start": 0.849,
+          "end": 1.26
+        },
+        {
+          "word": "SVG",
+          "start": 1.469,
+          "end": 2.06
+        },
+        {
+          "word": "PNG",
+          "start": 2.261,
+          "end": 2.881
+        },
+        {
+          "word": "or",
+          "start": 3.043,
+          "end": 3.129
+        },
+        {
+          "word": "WebM",
+          "start": 3.329,
+          "end": 3.825
+        },
+        {
+          "word": "video",
+          "start": 3.825,
+          "end": 4.159
+        },
+        {
+          "word": "where",
+          "start": 4.531,
+          "end": 4.636
+        },
+        {
+          "word": "one",
+          "start": 4.645,
+          "end": 4.837
+        },
+        {
+          "word": "prompt",
+          "start": 4.837,
+          "end": 5.132
+        },
+        {
+          "word": "teaches",
+          "start": 5.132,
+          "end": 5.504
+        },
+        {
+          "word": "your",
+          "start": 5.504,
+          "end": 5.59
+        },
+        {
+          "word": "coding",
+          "start": 5.59,
+          "end": 5.838
+        },
+        {
+          "word": "agent",
+          "start": 5.838,
+          "end": 6.105
+        }
+      ]
     },
     {
-      "id": "s07_outro",
-      "start_frame": 2160,
-      "duration_frames": 240,
-      "voice_offset_sec": 0.4,
-      "text": "PayTable. Linked PayPal wallets for AI agents, with human approval on every purchase.",
-      "caption": "PayTable \u00b7 Linked PayPal Wallets for AI Agents \u00b7 Open Source MIT"
+      "id": "m12_cta_maya",
+      "act": 6,
+      "speaker": "maya",
+      "start_frame": 5040,
+      "duration_frames": 180,
+      "voice_offset_sec": 0.28,
+      "text": "PayTable is live and open source today.",
+      "caption": "PayTable v2.0 \u00b7 Open Source MIT \u00b7 PayPal Developer Sandbox",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 2.521,
+      "words": [
+        {
+          "word": "PayTable",
+          "start": 0.071,
+          "end": 0.549
+        },
+        {
+          "word": "is",
+          "start": 0.559,
+          "end": 0.731
+        },
+        {
+          "word": "live",
+          "start": 0.742,
+          "end": 1.189
+        },
+        {
+          "word": "and",
+          "start": 1.25,
+          "end": 1.392
+        },
+        {
+          "word": "open",
+          "start": 1.453,
+          "end": 1.676
+        },
+        {
+          "word": "source",
+          "start": 1.687,
+          "end": 1.92
+        },
+        {
+          "word": "today",
+          "start": 1.931,
+          "end": 2.256
+        }
+      ]
+    },
+    {
+      "id": "m13_cta_alex",
+      "act": 6,
+      "speaker": "alex",
+      "start_frame": 5220,
+      "duration_frames": 300,
+      "voice_offset_sec": 0.18,
+      "text": "Link an agent wallet, keep human approval on every purchase, and build with us on GitHub.",
+      "caption": "github.com/harrymove-ctrl/paytable \u00b7 Human approval on every purchase.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 4.621,
+      "words": [
+        {
+          "word": "Link",
+          "start": 0.052,
+          "end": 0.188
+        },
+        {
+          "word": "an",
+          "start": 0.188,
+          "end": 0.251
+        },
+        {
+          "word": "agent",
+          "start": 0.261,
+          "end": 0.544
+        },
+        {
+          "word": "wallet",
+          "start": 0.555,
+          "end": 0.9
+        },
+        {
+          "word": "keep",
+          "start": 1.12,
+          "end": 1.308
+        },
+        {
+          "word": "human",
+          "start": 1.318,
+          "end": 1.518
+        },
+        {
+          "word": "approval",
+          "start": 1.518,
+          "end": 1.905
+        },
+        {
+          "word": "on",
+          "start": 1.905,
+          "end": 2.062
+        },
+        {
+          "word": "every",
+          "start": 2.114,
+          "end": 2.376
+        },
+        {
+          "word": "purchase",
+          "start": 2.386,
+          "end": 2.93
+        },
+        {
+          "word": "and",
+          "start": 3.255,
+          "end": 3.339
+        },
+        {
+          "word": "build",
+          "start": 3.339,
+          "end": 3.57
+        },
+        {
+          "word": "with",
+          "start": 3.57,
+          "end": 3.706
+        },
+        {
+          "word": "us",
+          "start": 3.716,
+          "end": 3.852
+        },
+        {
+          "word": "on",
+          "start": 3.852,
+          "end": 3.935
+        },
+        {
+          "word": "GitHub",
+          "start": 3.935,
+          "end": 4.333
+        }
+      ]
     }
   ],
   "launch_scenes": [
     {
       "id": "l01_hook",
+      "act": 1,
+      "speaker": "alex",
       "start_frame": 0,
-      "duration_frames": 270,
-      "voice_offset_sec": 0.3,
-      "text": "PayPal just opened a huge door. New linked wallets mean an AI agent can spend on your behalf, with approval on every purchase.",
-      "caption": "New linked PayPal wallets for AI agents, with approval on every purchase."
-    },
-    {
-      "id": "l02_gate",
-      "start_frame": 270,
-      "duration_frames": 330,
-      "voice_offset_sec": 0.3,
-      "text": "On PayTable, your agent negotiates a studio monitor down to two hundred sixty five dollars and pauses at the orange human approval gate.",
-      "caption": "Agent negotiates $310 down to $265 and halts at Sodium's orange Needs Approval gate."
-    },
-    {
-      "id": "l03_settle",
-      "start_frame": 600,
-      "duration_frames": 360,
-      "voice_offset_sec": 0.3,
-      "text": "One click signs a cryptographic mandate, settles PayPal Orders, splits QR dinner bills, and reconciles live in AG Grid.",
-      "caption": "1-click approval settles Orders v2, QR Dinner Splits, EUR Pay Later, and AG Grid."
-    },
-    {
-      "id": "l04_outro",
-      "start_frame": 960,
-      "duration_frames": 240,
+      "duration_frames": 468,
       "voice_offset_sec": 0.35,
-      "text": "PayTable. Collaborative agent commerce on PayPal Sandbox.",
-      "caption": "PayTable \u00b7 Built with Sodium, Rust, and PayPal Developer Sandbox"
+      "text": "AI agents negotiate deals in seconds, until checkout stops them cold. Today we are launching PayTable for PayPal Linked Agent Wallets.",
+      "caption": "Launching PayTable: PayPal Linked Agent Wallets with per-purchase approval.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 7.621,
+      "words": [
+        {
+          "word": "AI",
+          "start": 0.067,
+          "end": 0.401
+        },
+        {
+          "word": "agents",
+          "start": 0.467,
+          "end": 0.802
+        },
+        {
+          "word": "negotiate",
+          "start": 0.811,
+          "end": 1.336
+        },
+        {
+          "word": "deals",
+          "start": 1.336,
+          "end": 1.621
+        },
+        {
+          "word": "in",
+          "start": 1.621,
+          "end": 1.707
+        },
+        {
+          "word": "seconds",
+          "start": 1.707,
+          "end": 2.184
+        },
+        {
+          "word": "until",
+          "start": 2.48,
+          "end": 2.652
+        },
+        {
+          "word": "checkout",
+          "start": 2.661,
+          "end": 3.062
+        },
+        {
+          "word": "stops",
+          "start": 3.129,
+          "end": 3.434
+        },
+        {
+          "word": "them",
+          "start": 3.434,
+          "end": 3.539
+        },
+        {
+          "word": "cold",
+          "start": 3.539,
+          "end": 3.854
+        },
+        {
+          "word": "Today",
+          "start": 4.168,
+          "end": 4.34
+        },
+        {
+          "word": "we",
+          "start": 4.35,
+          "end": 4.445
+        },
+        {
+          "word": "are",
+          "start": 4.445,
+          "end": 4.521
+        },
+        {
+          "word": "launching",
+          "start": 4.521,
+          "end": 4.979
+        },
+        {
+          "word": "PayTable",
+          "start": 4.979,
+          "end": 5.523
+        },
+        {
+          "word": "for",
+          "start": 5.533,
+          "end": 5.666
+        },
+        {
+          "word": "PayPal",
+          "start": 5.666,
+          "end": 6.152
+        },
+        {
+          "word": "Linked",
+          "start": 6.382,
+          "end": 6.61
+        },
+        {
+          "word": "Agent",
+          "start": 6.706,
+          "end": 6.916
+        },
+        {
+          "word": "Wallets",
+          "start": 6.925,
+          "end": 7.364
+        }
+      ]
+    },
+    {
+      "id": "l02_steps",
+      "act": 2,
+      "speaker": "maya",
+      "start_frame": 468,
+      "duration_frames": 552,
+      "voice_offset_sec": 0.25,
+      "text": "Use it in four simple steps: pick a preset, watch Pip negotiate three quotes down to two sixty five, tune your wallet cap, and tap Approve.",
+      "caption": "4 clear steps: pick preset, compare quotes ($310 to $265), tune cap, tap Approve.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 8.674,
+      "words": [
+        {
+          "word": "Use",
+          "start": 0.094,
+          "end": 0.342
+        },
+        {
+          "word": "it",
+          "start": 0.353,
+          "end": 0.436
+        },
+        {
+          "word": "in",
+          "start": 0.436,
+          "end": 0.613
+        },
+        {
+          "word": "four",
+          "start": 0.625,
+          "end": 0.931
+        },
+        {
+          "word": "simple",
+          "start": 0.943,
+          "end": 1.226
+        },
+        {
+          "word": "steps",
+          "start": 1.238,
+          "end": 1.673
+        },
+        {
+          "word": "pick",
+          "start": 2.05,
+          "end": 2.168
+        },
+        {
+          "word": "a",
+          "start": 2.168,
+          "end": 2.228
+        },
+        {
+          "word": "preset",
+          "start": 2.228,
+          "end": 2.735
+        },
+        {
+          "word": "watch",
+          "start": 3.112,
+          "end": 3.407
+        },
+        {
+          "word": "Pip",
+          "start": 3.418,
+          "end": 3.619
+        },
+        {
+          "word": "negotiate",
+          "start": 3.619,
+          "end": 4.184
+        },
+        {
+          "word": "three",
+          "start": 4.196,
+          "end": 4.467
+        },
+        {
+          "word": "quotes",
+          "start": 4.479,
+          "end": 4.809
+        },
+        {
+          "word": "down",
+          "start": 4.809,
+          "end": 5.056
+        },
+        {
+          "word": "to",
+          "start": 5.056,
+          "end": 5.128
+        },
+        {
+          "word": "two",
+          "start": 5.139,
+          "end": 5.351
+        },
+        {
+          "word": "sixty",
+          "start": 5.363,
+          "end": 5.657
+        },
+        {
+          "word": "five",
+          "start": 5.657,
+          "end": 6.058
+        },
+        {
+          "word": "tune",
+          "start": 6.412,
+          "end": 6.577
+        },
+        {
+          "word": "your",
+          "start": 6.589,
+          "end": 6.707
+        },
+        {
+          "word": "wallet",
+          "start": 6.719,
+          "end": 6.978
+        },
+        {
+          "word": "cap",
+          "start": 6.978,
+          "end": 7.332
+        },
+        {
+          "word": "and",
+          "start": 7.414,
+          "end": 7.626
+        },
+        {
+          "word": "tap",
+          "start": 7.638,
+          "end": 7.85
+        },
+        {
+          "word": "Approve",
+          "start": 7.85,
+          "end": 8.346
+        }
+      ]
+    },
+    {
+      "id": "l03_lab",
+      "act": 3,
+      "speaker": "alex",
+      "start_frame": 1020,
+      "duration_frames": 510,
+      "voice_offset_sec": 0.25,
+      "text": "Inside our Rust lab, Vaulty blocks any overspend with a laser cap, while your switch mints a SHA two fifty six mandate for PayPal Orders v2.",
+      "caption": "Rust Vault: $500 laser cap + SHA-256 mandate stamp + PayPal Orders v2.",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 8.057,
+      "words": [
+        {
+          "word": "Inside",
+          "start": 0.068,
+          "end": 0.381
+        },
+        {
+          "word": "our",
+          "start": 0.391,
+          "end": 0.527
+        },
+        {
+          "word": "Rust",
+          "start": 0.527,
+          "end": 0.751
+        },
+        {
+          "word": "lab",
+          "start": 0.751,
+          "end": 1.015
+        },
+        {
+          "word": "Vaulty",
+          "start": 1.2,
+          "end": 1.503
+        },
+        {
+          "word": "blocks",
+          "start": 1.503,
+          "end": 1.875
+        },
+        {
+          "word": "any",
+          "start": 1.992,
+          "end": 2.186
+        },
+        {
+          "word": "overspend",
+          "start": 2.196,
+          "end": 2.704
+        },
+        {
+          "word": "with",
+          "start": 2.704,
+          "end": 2.782
+        },
+        {
+          "word": "a",
+          "start": 2.782,
+          "end": 2.815
+        },
+        {
+          "word": "laser",
+          "start": 2.812,
+          "end": 3.172
+        },
+        {
+          "word": "cap",
+          "start": 3.172,
+          "end": 3.475
+        },
+        {
+          "word": "while",
+          "start": 3.787,
+          "end": 3.895
+        },
+        {
+          "word": "your",
+          "start": 3.895,
+          "end": 3.993
+        },
+        {
+          "word": "switch",
+          "start": 4.003,
+          "end": 4.207
+        },
+        {
+          "word": "mints",
+          "start": 4.207,
+          "end": 4.422
+        },
+        {
+          "word": "a",
+          "start": 4.5,
+          "end": 4.578
+        },
+        {
+          "word": "SHA",
+          "start": 4.647,
+          "end": 5.193
+        },
+        {
+          "word": "two",
+          "start": 5.399,
+          "end": 5.603
+        },
+        {
+          "word": "fifty",
+          "start": 5.613,
+          "end": 5.887
+        },
+        {
+          "word": "six",
+          "start": 5.887,
+          "end": 6.091
+        },
+        {
+          "word": "mandate",
+          "start": 6.091,
+          "end": 6.443
+        },
+        {
+          "word": "for",
+          "start": 6.502,
+          "end": 6.628
+        },
+        {
+          "word": "PayPal",
+          "start": 6.638,
+          "end": 7.097
+        },
+        {
+          "word": "Orders",
+          "start": 7.155,
+          "end": 7.35
+        },
+        {
+          "word": "v2",
+          "start": 7.36,
+          "end": 7.78
+        }
+      ]
+    },
+    {
+      "id": "l04_calculators",
+      "act": 4,
+      "speaker": "maya",
+      "start_frame": 1530,
+      "duration_frames": 570,
+      "voice_offset_sec": 0.25,
+      "text": "Tweak live calculators to split dinner receipts by PayPal QR, convert euros with Pay Later, shield duplicate subscriptions, and audit in AG Grid.",
+      "caption": "Interactive QR Dinner Split, EUR Pay Later, Dispute Shield, Solar Pool & AG Grid.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 8.952,
+      "words": [
+        {
+          "word": "Tweak",
+          "start": 0.083,
+          "end": 0.31
+        },
+        {
+          "word": "live",
+          "start": 0.321,
+          "end": 0.559
+        },
+        {
+          "word": "calculators",
+          "start": 0.56,
+          "end": 1.19
+        },
+        {
+          "word": "to",
+          "start": 1.19,
+          "end": 1.274
+        },
+        {
+          "word": "split",
+          "start": 1.286,
+          "end": 1.631
+        },
+        {
+          "word": "dinner",
+          "start": 1.631,
+          "end": 1.833
+        },
+        {
+          "word": "receipts",
+          "start": 1.833,
+          "end": 2.286
+        },
+        {
+          "word": "by",
+          "start": 2.298,
+          "end": 2.464
+        },
+        {
+          "word": "PayPal",
+          "start": 2.476,
+          "end": 2.976
+        },
+        {
+          "word": "QR",
+          "start": 2.988,
+          "end": 3.44
+        },
+        {
+          "word": "convert",
+          "start": 3.643,
+          "end": 3.952
+        },
+        {
+          "word": "euros",
+          "start": 3.952,
+          "end": 4.357
+        },
+        {
+          "word": "with",
+          "start": 4.369,
+          "end": 4.512
+        },
+        {
+          "word": "Pay",
+          "start": 4.524,
+          "end": 4.738
+        },
+        {
+          "word": "Later",
+          "start": 4.75,
+          "end": 5.143
+        },
+        {
+          "word": "shield",
+          "start": 5.5,
+          "end": 5.869
+        },
+        {
+          "word": "duplicate",
+          "start": 5.869,
+          "end": 6.286
+        },
+        {
+          "word": "subscriptions",
+          "start": 6.298,
+          "end": 6.988
+        },
+        {
+          "word": "and",
+          "start": 7.012,
+          "end": 7.19
+        },
+        {
+          "word": "audit",
+          "start": 7.298,
+          "end": 7.655
+        },
+        {
+          "word": "in",
+          "start": 7.714,
+          "end": 7.905
+        },
+        {
+          "word": "AG",
+          "start": 7.917,
+          "end": 8.238
+        },
+        {
+          "word": "Grid",
+          "start": 8.25,
+          "end": 8.595
+        }
+      ]
+    },
+    {
+      "id": "l05_asciicn",
+      "act": 5,
+      "speaker": "alex",
+      "start_frame": 2100,
+      "duration_frames": 540,
+      "voice_offset_sec": 0.25,
+      "text": "Tab four launches our asciicn 3D shader and Web Audio studio: export text, SVG, PNG, or video, where one prompt teaches your agent.",
+      "caption": "Built-in asciicn 3D shader & Web Audio studio (.txt, .svg, .png, .webm export).",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 8.669,
+      "words": [
+        {
+          "word": "Tab",
+          "start": 0.076,
+          "end": 0.248
+        },
+        {
+          "word": "four",
+          "start": 0.248,
+          "end": 0.401
+        },
+        {
+          "word": "launches",
+          "start": 0.401,
+          "end": 0.706
+        },
+        {
+          "word": "our",
+          "start": 0.706,
+          "end": 0.792
+        },
+        {
+          "word": "asciicn",
+          "start": 0.802,
+          "end": 1.279
+        },
+        {
+          "word": "3D",
+          "start": 1.288,
+          "end": 1.631
+        },
+        {
+          "word": "shader",
+          "start": 1.631,
+          "end": 2.041
+        },
+        {
+          "word": "and",
+          "start": 2.271,
+          "end": 2.356
+        },
+        {
+          "word": "Web",
+          "start": 2.356,
+          "end": 2.604
+        },
+        {
+          "word": "Audio",
+          "start": 2.729,
+          "end": 3.014
+        },
+        {
+          "word": "studio",
+          "start": 3.014,
+          "end": 3.415
+        },
+        {
+          "word": "export",
+          "start": 3.768,
+          "end": 4.063
+        },
+        {
+          "word": "text",
+          "start": 4.063,
+          "end": 4.436
+        },
+        {
+          "word": "SVG",
+          "start": 4.636,
+          "end": 5.198
+        },
+        {
+          "word": "PNG",
+          "start": 5.38,
+          "end": 5.952
+        },
+        {
+          "word": "or",
+          "start": 6.152,
+          "end": 6.239
+        },
+        {
+          "word": "video",
+          "start": 6.248,
+          "end": 6.648
+        },
+        {
+          "word": "where",
+          "start": 6.992,
+          "end": 7.097
+        },
+        {
+          "word": "one",
+          "start": 7.097,
+          "end": 7.307
+        },
+        {
+          "word": "prompt",
+          "start": 7.317,
+          "end": 7.65
+        },
+        {
+          "word": "teaches",
+          "start": 7.689,
+          "end": 7.994
+        },
+        {
+          "word": "your",
+          "start": 7.994,
+          "end": 8.108
+        },
+        {
+          "word": "agent",
+          "start": 8.108,
+          "end": 8.404
+        }
+      ]
+    },
+    {
+      "id": "l06_trust",
+      "act": 6,
+      "speaker": "maya",
+      "start_frame": 2640,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.25,
+      "text": "Every agent action stays visible, audible, and gated by human approval.",
+      "caption": "Visible, audible, and gated by human approval on every purchase.",
+      "speaker_label": "Maya",
+      "speaker_role": "Systems Architect",
+      "voice_duration_sec": 5.232,
+      "words": [
+        {
+          "word": "Every",
+          "start": 0.083,
+          "end": 0.393
+        },
+        {
+          "word": "agent",
+          "start": 0.393,
+          "end": 0.726
+        },
+        {
+          "word": "action",
+          "start": 0.738,
+          "end": 1.143
+        },
+        {
+          "word": "stays",
+          "start": 1.155,
+          "end": 1.476
+        },
+        {
+          "word": "visible",
+          "start": 1.488,
+          "end": 1.976
+        },
+        {
+          "word": "audible",
+          "start": 2.464,
+          "end": 2.893
+        },
+        {
+          "word": "and",
+          "start": 3.262,
+          "end": 3.393
+        },
+        {
+          "word": "gated",
+          "start": 3.405,
+          "end": 3.774
+        },
+        {
+          "word": "by",
+          "start": 3.786,
+          "end": 3.917
+        },
+        {
+          "word": "human",
+          "start": 3.929,
+          "end": 4.333
+        },
+        {
+          "word": "approval",
+          "start": 4.333,
+          "end": 4.881
+        }
+      ]
+    },
+    {
+      "id": "l07_cta",
+      "act": 6,
+      "speaker": "alex",
+      "start_frame": 3000,
+      "duration_frames": 480,
+      "voice_offset_sec": 0.22,
+      "text": "PayTable. Linked PayPal wallets for AI agents, live and open source on GitHub today.",
+      "caption": "PayTable \u00b7 github.com/harrymove-ctrl/paytable \u00b7 Open Source MIT",
+      "speaker_label": "Alex",
+      "speaker_role": "Product Lead",
+      "voice_duration_sec": 6.384,
+      "words": [
+        {
+          "word": "PayTable",
+          "start": 0.096,
+          "end": 0.613
+        },
+        {
+          "word": "Linked",
+          "start": 0.974,
+          "end": 1.226
+        },
+        {
+          "word": "PayPal",
+          "start": 1.238,
+          "end": 1.743
+        },
+        {
+          "word": "wallets",
+          "start": 1.755,
+          "end": 2.163
+        },
+        {
+          "word": "for",
+          "start": 2.175,
+          "end": 2.452
+        },
+        {
+          "word": "AI",
+          "start": 2.548,
+          "end": 2.957
+        },
+        {
+          "word": "agents",
+          "start": 2.969,
+          "end": 3.522
+        },
+        {
+          "word": "live",
+          "start": 3.798,
+          "end": 4.123
+        },
+        {
+          "word": "and",
+          "start": 4.243,
+          "end": 4.363
+        },
+        {
+          "word": "open",
+          "start": 4.435,
+          "end": 4.724
+        },
+        {
+          "word": "source",
+          "start": 4.724,
+          "end": 5.096
+        },
+        {
+          "word": "on",
+          "start": 5.096,
+          "end": 5.216
+        },
+        {
+          "word": "GitHub",
+          "start": 5.216,
+          "end": 5.625
+        },
+        {
+          "word": "today",
+          "start": 5.625,
+          "end": 6.034
+        }
+      ]
     }
   ]
 }

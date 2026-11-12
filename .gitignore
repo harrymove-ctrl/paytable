@@ -9,6 +9,7 @@ video/node_modules/
 video/out/*.mp4
 video/public/audio/*.wav
 docs/video/frames/
+docs/video/contact-sheet-*.png
 docs/superpowers/
 shared-ui/
 streak-log.json

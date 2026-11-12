@@ -1,16 +1,14 @@
-# PayTable Score & Sound Design Cue Sheet
+# PayTable v2.0 Dual-Voice Score, Web Audio & Foley Cue Sheet
 
-## 1. Ambient Score (`music.md`)
+## 1. 6-Act Cinematic Launch Score (`video/scripts/synthesize_elevenlabs_voice.py`)
 
-1. **Register**: Warm minimal modular pulse (`92 BPM`, `D Dorian`: `D2`, `A2`, `C3`, `E3`, `G3`), clean sine-triangle pad with gentle low-pass movement (`680 Hz` ceiling so speech frequencies `1 kHz` to `4 kHz` stay completely unobstructed).
-2. **Ducking**: Score sits at `-22 dBFS` under narration and lifts slightly (`-18 dBFS`) on scene transitions and the final lockup, mastered to `-14 LUFS` integrated loudness (`-1.5 dBTP` true peak ceiling).
+1. **Tempo & Harmony**: `92 BPM` in `D Dorian` / `D minor 9`, cycling a 4-bar chord progression (`Dm9 -> Bbmaj7 -> Fmaj7 -> C6`) with warm beat-pulsed sub-bass, stereo detuned Rhodes pad, and syncopated 8th-note Kurzgesagt-style marimba/kalimba bell plucks.
+2. **Automatic Dialogue Ducking**: A 2-pass smoothed `100 Hz` gain envelope ducks the musical score to `0.38x` (`~ -8.4 dB`) `140ms` before each `Alex` or `Maya` vocal phrase and blooms back to `1.00x` in inter-scene transitions, mastered via `ffmpeg loudnorm` to `-14.0 LUFS` (`-1.5 dBTP` ceiling).
+3. **Interactive In-App Web Audio (`web/src/lib/sound-engine.ts`)**: Mirrors the exact `92 BPM` `D Dorian` ambient chord loop (`Play Score` toggle in header) alongside tactile `SFX On` mechanical clicks, stage arpeggios, D-add9 approval chimes, and low sawtooth guardrail block alerts.
 
-## 2. Recorded / Synthesized UI Foley (`sfx.md`)
+## 2. Master Film Foley Timeline (`92.0s @ 60fps`)
 
-1. `0:00.4`: Soft low sub-tick on opening `1px` rule wipe.
-2. `0:09.2`: Crisp mechanical keystroke burst as `@paytable` prompt enters composer.
-3. `0:24.8`: Warm amber chime (`528 Hz` + `792 Hz`, `90ms` decay) when `[APPROVE PURCHASE]` pauses at `NEEDS APPROVAL`.
-4. `0:35.4`: Tactile square switch click (`1.8 kHz` transient) as cursor presses `APPROVE $265.00 PURCHASE`.
-5. `0:36.2`: Clean two-note confirmation harmonic (`440 Hz -> 660 Hz`) as `ORD-SBX` settles and mandate hash locks.
-6. `0:46.5`, `0:51.0`, `0:55.5`: Quiet mechanical detent ticks across Track `02`, `03`, and `05` plate switches.
-7. `1:12.2`: Final warm chord resolve on PayTable end mark.
+1. **Character & Step Entrance Pops (`380 Hz -> 820 Hz` pitch-envelope sine pop)**: `0.4s`, `9.1s`, `18.6s`, `26.2s`, `34.8s`, `58.5s`, `65.6s`, `72.5s`.
+2. **Stereo Act Transition Whooshes (`520ms` filtered noise + sub sweep)**: `18.0s` (`ColorWipe`), `42.0s` (`WhipPan`), `58.0s` (`PortalIris`), `72.0s` (`DiagonalShutter`), `84.0s` (`ColorWipe`).
+3. **Rust Vault `$500` Laser Gate Pulse (`640 Hz -> 230 Hz`)**: `46.0s` as the rogue `$620.00` quote capsule fails closed (`HTTP 422`).
+4. **Human Switch Click + D-Add9 Approval Sparkle Chimes (`587 Hz + 740 Hz + 880 Hz + 1175 Hz`)**: `38.2s` (Tabletop `Approve` click), `52.8s` (`SHA-256` crystal stamp in Rust Lab), and `84.4s` (Final Hero Lockup resolve).

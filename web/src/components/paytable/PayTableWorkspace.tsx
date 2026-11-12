@@ -38,10 +38,17 @@ import {
   formatElapsed,
 } from "@/components/sodium/ai/tool-call-row";
 import { Icon, Moon, Renew, Sun } from "@/components/sodium/icon";
+import { AsciiBackground } from "@/components/ascii/ascii-background";
+import { AsciiScramble } from "@/components/ascii/ascii-scramble";
 import { TabletopWidget } from "@/components/paytable/TabletopWidget";
 import { LedgerPanel } from "@/components/paytable/LedgerPanel";
 import { ScheduleSdkPanel } from "@/components/paytable/ScheduleSdkPanel";
+import {
+  LaunchAsciiStudio,
+  type HeroBgVariant,
+} from "@/components/paytable/LaunchAsciiStudio";
 import { ReceiptDialog } from "@/components/paytable/ReceiptDialog";
+import { soundEngine } from "@/lib/sound-engine";
 import {
   formatUsd,
   useGlidingNumber,
@@ -80,6 +87,10 @@ export function PayTableWorkspace({
   } | null>(null);
   const [receiptOpen, setReceiptOpen] = useState(false);
   const [qaOpen, setQaOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(true);
+  const [sfxOn, setSfxOn] = useState(true);
+  const [musicOn, setMusicOn] = useState(false);
+  const [heroBg, setHeroBg] = useState<HeroBgVariant>("topography");
   const [lastIdempotencyKey, setLastIdempotencyKey] = useState<string>(
     "idem-live-session-01"
   );
@@ -91,6 +102,10 @@ export function PayTableWorkspace({
     const qTheme = searchParams.get("theme");
     if (qTheme === "light" || qTheme === "dark") {
       setTheme(qTheme);
+    }
+    const qTab = searchParams.get("tab");
+    if (qTab && ["tabletop", "ledger", "schedule", "studio"].includes(qTab)) {
+      setActiveTab(qTab);
     }
   }, [searchParams]);
 
@@ -117,6 +132,14 @@ export function PayTableWorkspace({
   const glidingSpent = useGlidingNumber(snapshot.wallet.daily_spent_usd);
   const glidingSettled = useGlidingNumber(snapshot.settled_total_usd);
 
+  const activeGuideStep = useMemo(() => {
+    if (!activeRun) return 1;
+    if (receiptOpen) return 4;
+    if (activeRun.status === "approved_settled") return 4;
+    if (activeRun.status === "awaiting_approval") return 3;
+    return 2;
+  }, [activeRun, receiptOpen]);
+
   const stageRun = async (
     track: TrackSlug,
     promptOverride?: string,
@@ -138,12 +161,14 @@ export function PayTableWorkspace({
       });
       const data = await res.json();
       if (!res.ok) {
+        soundEngine.playGuardrailBlock();
         setBanner({
           tone: "fail",
           text: `${data.code ?? "POLICY_BLOCK"}: ${data.message ?? "Blocked by linked-wallet policy"}`,
         });
         return;
       }
+      soundEngine.playStage();
       const key = `idem-${data.run_id}`;
       setLastIdempotencyKey(key);
       await refreshState(data.run_id);
@@ -157,6 +182,7 @@ export function PayTableWorkspace({
   };
 
   const selectTrackPreset = async (slug: TrackSlug) => {
+    soundEngine.playClick("light");
     setSelectedTrack(slug);
     const preset = snapshot.tracks.find((t) => t.slug === slug);
     if (preset) {
@@ -201,12 +227,14 @@ export function PayTableWorkspace({
       const data = await res.json();
       await refreshState(activeRun.run_id);
       if (!res.ok) {
+        soundEngine.playGuardrailBlock();
         setBanner({
           tone: "fail",
           text: `${data.code ?? "APPROVAL_ERROR"}: ${data.message ?? "Approval halted"}`,
         });
         return;
       }
+      soundEngine.playApproveChime();
       setBanner({
         tone: "ok",
         text: `Approved & settled ${data.run_id} (${formatUsd(data.amount_usd)}). Mandate ${String(data.mandate_hash ?? "").slice(0, 14)}...`,
@@ -218,6 +246,7 @@ export function PayTableWorkspace({
 
   const rejectRun = async () => {
     if (!activeRun) return;
+    soundEngine.playClick("medium");
     const res = await fetch(`/api/runs/${activeRun.run_id}/reject`, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -232,7 +261,37 @@ export function PayTableWorkspace({
     }
   };
 
+  const updateWalletPolicy = async (
+    maxSingleUsd: number,
+    dailyCapUsd: number
+  ) => {
+    const res = await fetch("/api/wallet/policy", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        max_per_purchase_usd: maxSingleUsd,
+        daily_cap_usd: dailyCapUsd,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      soundEngine.playGuardrailBlock();
+      setBanner({
+        tone: "fail",
+        text: `${data.code ?? "INVALID_WALLET_POLICY"}: ${data.message ?? "Invalid wallet cap"}`,
+      });
+      return;
+    }
+    soundEngine.playApproveChime();
+    setSnapshot(data);
+    setBanner({
+      tone: "ok",
+      text: `Updated Linked Wallet caps: ${formatUsd(maxSingleUsd)} per purchase, ${formatUsd(dailyCapUsd)} daily.`,
+    });
+  };
+
   const reseedAll = async () => {
+    soundEngine.playClick("medium");
     const res = await fetch("/api/state/reseed", { method: "POST" });
     if (!res.ok) return;
     const fresh: EngineSnapshot = await res.json();
@@ -248,10 +307,15 @@ export function PayTableWorkspace({
   };
 
   const probeLiveSandbox = async () => {
-    setBanner({ tone: "warn", text: "Probing live PayPal Sandbox OAuth2 and v2 endpoints..." });
+    soundEngine.playClick("light");
+    setBanner({
+      tone: "warn",
+      text: "Probing live PayPal Sandbox OAuth2 and v2 endpoints...",
+    });
     const res = await fetch("/api/paypal/live-verify", { method: "POST" });
     const data = await res.json();
     if (data.oauth_ok) {
+      soundEngine.playApproveChime();
       setBanner({
         tone: "ok",
         text: `Live PayPal Sandbox verified (${data.mode}) · Order ${data.sandbox_order_id ?? "OK"} · Reporting HTTP ${data.reporting_http_status}`,
@@ -271,7 +335,7 @@ export function PayTableWorkspace({
       className="sodium min-h-dvh bg-page text-text-1"
     >
       <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-4 px-4 py-4 sm:px-6">
-        {/* Top Masthead */}
+        {/* Top Masthead with Sound, Ambient Score, Guide, Layout & Theme Controls */}
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
           <div className="flex min-w-0 items-center gap-3">
             <svg
@@ -292,10 +356,10 @@ export function PayTableWorkspace({
               />
             </svg>
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h1 className="type-title-sm text-text-1">PayTable</h1>
                 <span className="border border-line bg-well px-1.5 py-0.5 type-micro text-text-2">
-                  PayPal AI Tabletop
+                  <AsciiScramble text="LINKED WALLET + ASCIICN" trigger="hover" />
                 </span>
               </div>
               <p className="truncate type-caption text-text-2">
@@ -314,7 +378,10 @@ export function PayTableWorkspace({
                 <button
                   key={mode}
                   type="button"
-                  onClick={() => setVariant(mode)}
+                  onClick={() => {
+                    soundEngine.playClick("light");
+                    setVariant(mode);
+                  }}
                   aria-pressed={variant === mode}
                   className={`h-(--control-sm) cursor-pointer px-2.5 type-label-sm transition-colors ${
                     variant === mode
@@ -328,12 +395,56 @@ export function PayTableWorkspace({
             </div>
 
             <Button
+              variant={sfxOn ? "secondary" : "ghost"}
+              size="sm"
+              aria-pressed={sfxOn}
+              data-testid="sfx-toggle-btn"
+              onClick={() => {
+                const next = !sfxOn;
+                setSfxOn(next);
+                soundEngine.setSfxEnabled(next);
+              }}
+            >
+              {sfxOn ? "SFX On" : "SFX Off"}
+            </Button>
+
+            <Button
+              variant={musicOn ? "primary" : "secondary"}
+              size="sm"
+              aria-pressed={musicOn}
+              data-testid="music-toggle-btn"
+              onClick={() => {
+                const next = !musicOn;
+                setMusicOn(next);
+                soundEngine.setMusicEnabled(next);
+              }}
+            >
+              {musicOn ? "Score Playing" : "Play Score"}
+            </Button>
+
+            <Button
+              variant={guideOpen ? "secondary" : "ghost"}
+              size="sm"
+              aria-pressed={guideOpen}
+              data-testid="guide-toggle-btn"
+              onClick={() => {
+                soundEngine.playClick("light");
+                setGuideOpen((v) => !v);
+              }}
+            >
+              Guide
+            </Button>
+
+            <Button
               variant="secondary"
               size="icon-sm"
               aria-label={
                 theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
               }
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() => {
+                soundEngine.playClick("light");
+                setTheme(theme === "dark" ? "light" : "dark");
+              }}
               data-testid="theme-toggle-btn"
             >
               <Icon icon={theme === "dark" ? Sun : Moon} />
@@ -359,6 +470,135 @@ export function PayTableWorkspace({
             </Button>
           </div>
         </header>
+
+        {/* Interactive Launch Hero + 4-Step How-To-Use Guide with Live asciicn Shader Backdrop */}
+        {guideOpen && (
+          <section
+            aria-label="How to use PayTable step by step"
+            data-testid="how-it-works-guide"
+            className="relative overflow-hidden border border-line bg-panel"
+          >
+            {heroBg !== "off" && (
+              <div className="pointer-events-none absolute inset-0 opacity-25">
+                <AsciiBackground
+                  variant={heroBg}
+                  speed={0.75}
+                  fontSize={12}
+                  dither="bayer"
+                  className="size-full text-accent-text"
+                />
+              </div>
+            )}
+
+            <div className="relative z-10 flex flex-col gap-3 p-inset">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="border border-accent-edge bg-primary-bg px-2 py-0.5 type-label-sm text-accent-text">
+                    HOW PAYTABLE WORKS IN 4 STEPS
+                  </span>
+                  <span className="type-caption text-text-2">
+                    Interactive onboarding + live {heroBg} ASCII shader backdrop
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      soundEngine.playClick("light");
+                      setActiveTab("studio");
+                    }}
+                  >
+                    Open ASCII & Agent Studio
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  {
+                    num: "01",
+                    title: "Pick Track & Set Caps",
+                    desc: "Choose any of the 5 PayPal tracks below or customize single ($500) and daily ($1,500) wallet caps.",
+                    actionLabel: "Try Dinner QR Split",
+                    onAction: () => {
+                      setActiveTab("tabletop");
+                      void selectTrackPreset("group_dinner_split");
+                    },
+                  },
+                  {
+                    num: "02",
+                    title: "Customize & Stage",
+                    desc: "Edit diners, foreign currency, or @paytable prompt. Staging runs policy checks without charging your card.",
+                    actionLabel: "Focus @paytable Input",
+                    onAction: () => {
+                      setActiveTab("tabletop");
+                      document.getElementById("paytable-prompt")?.focus();
+                    },
+                  },
+                  {
+                    num: "03",
+                    title: "Approve Every Purchase",
+                    desc: "Inspect negotiated vendor quotes at the orange Needs Approval gate, then click Approve to settle.",
+                    actionLabel: "Jump to Approval Gate",
+                    onAction: () => {
+                      setActiveTab("tabletop");
+                      const nextWaiting = snapshot.runs.find(
+                        (r) => r.status === "awaiting_approval"
+                      );
+                      if (nextWaiting) setSelectedRunId(nextWaiting.run_id);
+                    },
+                  },
+                  {
+                    num: "04",
+                    title: "Mandate & ASCII Export",
+                    desc: "Verify the SHA-256 PayPal receipt, audit AG Grid, or export 3D ASCII frames (.txt, .svg, .png, .webm).",
+                    actionLabel: "Launch ASCII Studio",
+                    onAction: () => {
+                      soundEngine.playClick("light");
+                      setActiveTab("studio");
+                    },
+                  },
+                ].map((step, i) => {
+                  const isCurrent = activeGuideStep === i + 1;
+                  return (
+                    <div
+                      key={step.num}
+                      className={`flex flex-col justify-between gap-2 border p-3 backdrop-blur-[2px] ${
+                        isCurrent
+                          ? "border-accent-edge bg-page/90"
+                          : "border-line bg-page/80"
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="type-code-sm text-accent-text">
+                            [{step.num}] {step.title}
+                          </span>
+                          {isCurrent && (
+                            <span className="type-micro text-warn-text">
+                              ACTIVE
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-1 type-caption text-text-2">
+                          {step.desc}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={step.onAction}
+                        className="self-start cursor-pointer border border-line bg-well px-2 py-1 type-label-sm text-text-1 hover:border-accent-edge"
+                      >
+                        {step.actionLabel}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* QA / Debug Bar (?debug=1 or QA button) */}
         {qaOpen && (
@@ -437,7 +677,9 @@ export function PayTableWorkspace({
             <StatusStripLabel>Approval Gate</StatusStripLabel>
             <StatusStripValue>
               <StatusMark status="warn" />
-              <span>Every purchase</span>
+              <span>
+                Every purchase ({formatUsd(snapshot.wallet.max_per_purchase_usd)} max)
+              </span>
             </StatusStripValue>
           </StatusStripCell>
 
@@ -508,10 +750,13 @@ export function PayTableWorkspace({
           </div>
         )}
 
-        {/* Sodium NumberedTabs */}
+        {/* Sodium NumberedTabs (4 Views including Launch & ASCII Studio) */}
         <NumberedTabs
           value={activeTab}
-          onValueChange={(val) => setActiveTab(String(val))}
+          onValueChange={(val) => {
+            soundEngine.playClick("light");
+            setActiveTab(String(val));
+          }}
         >
           <NumberedTabsList size="sm" aria-label="PayTable views">
             <NumberedTabsTrigger value="tabletop" data-testid="tab-tabletop">
@@ -523,12 +768,15 @@ export function PayTableWorkspace({
             <NumberedTabsTrigger value="schedule" data-testid="tab-schedule">
               Schedule & SDK
             </NumberedTabsTrigger>
+            <NumberedTabsTrigger value="studio" data-testid="tab-studio">
+              Launch & ASCII Studio
+            </NumberedTabsTrigger>
           </NumberedTabsList>
 
           {/* [01] TABLETOP */}
           <NumberedTabsContent value="tabletop">
             <div className="flex min-w-0 flex-col gap-4">
-              {/* 5 Minimalist PayPal Developer Track Presets (single horizontal scroll row) */}
+              {/* 5 Minimalist PayPal Developer Track Presets */}
               <div
                 role="group"
                 aria-label="PayPal Developer Hackathon tracks"
@@ -564,7 +812,7 @@ export function PayTableWorkspace({
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  stageRun(selectedTrack);
+                  void stageRun(selectedTrack);
                 }}
                 className="field-surface flex flex-col gap-2 p-2 sm:flex-row sm:items-center"
               >
@@ -580,7 +828,10 @@ export function PayTableWorkspace({
                   className="min-w-0 flex-1 bg-transparent px-2 py-1 type-body-sm text-text-1 placeholder:text-text-3 focus:outline-none"
                 />
                 <div className="flex shrink-0 items-center gap-2">
-                  <label htmlFor="paytable-amount" className="type-label-sm text-text-2">
+                  <label
+                    htmlFor="paytable-amount"
+                    className="type-label-sm text-text-2"
+                  >
                     USD
                   </label>
                   <input
@@ -588,7 +839,7 @@ export function PayTableWorkspace({
                     type="number"
                     step="0.01"
                     min="1"
-                    max="2000"
+                    max="5000"
                     value={amountDraft}
                     onChange={(e) => setAmountDraft(e.target.value)}
                     className="field h-(--control-sm) w-24 px-2 type-code-sm text-text-1"
@@ -621,13 +872,20 @@ export function PayTableWorkspace({
                       <TabletopWidget
                         run={activeRun}
                         wallet={snapshot.wallet}
-                        onInspectReceipt={() => setReceiptOpen(true)}
+                        onInspectReceipt={() => {
+                          soundEngine.playClick("light");
+                          setReceiptOpen(true);
+                        }}
+                        onRestageScenario={stageRun}
+                        onUpdateWalletPolicy={updateWalletPolicy}
                       />
 
                       <Frame aria-label="Recent tabletop runs">
                         <FrameHeader>
                           <FrameTitle>recent-runs</FrameTitle>
-                          <FrameValue meta>{snapshot.runs.length} total</FrameValue>
+                          <FrameValue meta>
+                            {snapshot.runs.length} total
+                          </FrameValue>
                         </FrameHeader>
                         <FrameBody padding="none">
                           <div className="divide-y divide-line-faint">
@@ -635,7 +893,10 @@ export function PayTableWorkspace({
                               <button
                                 key={r.run_id}
                                 type="button"
-                                onClick={() => setSelectedRunId(r.run_id)}
+                                onClick={() => {
+                                  soundEngine.playClick("light");
+                                  setSelectedRunId(r.run_id);
+                                }}
                                 className={`flex min-h-(--row) w-full cursor-pointer items-center justify-between gap-3 px-inset py-2 text-start transition-colors ${
                                   r.run_id === activeRun.run_id
                                     ? "selected"
@@ -748,11 +1009,13 @@ export function PayTableWorkspace({
                         </Progress>
                       </FrameBody>
 
-                      {/* 2x2 Sodium Ruled Cells (matching sessions-rollup specimen) */}
+                      {/* 2x2 Sodium Ruled Cells */}
                       <FrameBody padding="none">
                         <div className="grid grid-cols-2">
                           <div className="border-e border-b border-line p-inset">
-                            <div className="type-label-sm text-text-2">Amount</div>
+                            <div className="type-label-sm text-text-2">
+                              Amount
+                            </div>
                             <div
                               data-testid="active-run-amount"
                               className="mt-0.5 truncate type-code text-text-1"
@@ -761,13 +1024,18 @@ export function PayTableWorkspace({
                             </div>
                           </div>
                           <div className="border-b border-line p-inset">
-                            <div className="type-label-sm text-text-2">Workers</div>
+                            <div className="type-label-sm text-text-2">
+                              Workers
+                            </div>
                             <div className="mt-0.5 type-code text-text-1">
-                              {activeRun.workers_active} / {activeRun.workers_total}
+                              {activeRun.workers_active} /{" "}
+                              {activeRun.workers_total}
                             </div>
                           </div>
                           <div className="border-e border-line p-inset">
-                            <div className="type-label-sm text-text-2">Failed</div>
+                            <div className="type-label-sm text-text-2">
+                              Failed
+                            </div>
                             <div className="mt-0.5 type-code text-text-1">
                               {activeRun.failed_checks}
                             </div>
@@ -798,7 +1066,7 @@ export function PayTableWorkspace({
                               size="sm"
                               pending={approving}
                               pendingLabel="Settling"
-                              onClick={() => approveRun()}
+                              onClick={() => void approveRun()}
                               data-testid="approve-purchase-btn"
                             >
                               {`Approve ${formatUsd(activeRun.amount_usd)} purchase`}
@@ -808,7 +1076,10 @@ export function PayTableWorkspace({
                           <Button
                             variant="secondary"
                             size="sm"
-                            onClick={() => setReceiptOpen(true)}
+                            onClick={() => {
+                              soundEngine.playClick("light");
+                              setReceiptOpen(true);
+                            }}
                             data-testid="inspect-settled-receipt-btn"
                           >
                             View mandate receipt
@@ -817,7 +1088,7 @@ export function PayTableWorkspace({
                       </FrameFooter>
                     </Frame>
 
-                    {/* Sodium ToolCallStack (never nested inside a Frame) */}
+                    {/* Sodium ToolCallStack */}
                     <ToolCallStack
                       size={variant === "compact" ? "sm" : "default"}
                       typing={false}
@@ -833,7 +1104,9 @@ export function PayTableWorkspace({
                           tab={step.tab ?? undefined}
                           word={step.word ?? undefined}
                           duration={step.duration_ms ?? undefined}
-                          defaultOpen={step.state === "waiting" || step.state === "failed"}
+                          defaultOpen={
+                            step.state === "waiting" || step.state === "failed"
+                          }
                         >
                           {step.output ? (
                             <div className="bg-well px-inset py-2.5 type-code-sm text-text-2 [overflow-wrap:anywhere]">
@@ -855,6 +1128,7 @@ export function PayTableWorkspace({
               rows={snapshot.ledger}
               theme={theme}
               onSelectRunId={(runId) => {
+                soundEngine.playClick("light");
                 setSelectedRunId(runId);
                 setReceiptOpen(true);
               }}
@@ -866,6 +1140,15 @@ export function PayTableWorkspace({
             <ScheduleSdkPanel
               schedule={snapshot.schedule}
               mcpTools={snapshot.mcp_tools}
+            />
+          </NumberedTabsContent>
+
+          {/* [04] LAUNCH & ASCII STUDIO */}
+          <NumberedTabsContent value="studio">
+            <LaunchAsciiStudio
+              heroBg={heroBg}
+              onChangeHeroBg={setHeroBg}
+              settledTotalUsd={snapshot.settled_total_usd}
             />
           </NumberedTabsContent>
         </NumberedTabs>

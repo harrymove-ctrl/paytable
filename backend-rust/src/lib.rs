@@ -78,6 +78,7 @@ pub fn build_router_with_config(config: PayPalConfig) -> Router {
         .route("/api/health", get(health_handler))
         .route("/api/state", get(get_state_handler))
         .route("/api/state/reseed", post(reseed_handler))
+        .route("/api/wallet/policy", post(update_wallet_policy_handler))
         .route("/api/tracks", get(list_tracks_handler))
         .route("/api/runs/stage", post(stage_run_handler))
         .route("/api/runs/:run_id/approve", post(approve_run_handler))
@@ -108,6 +109,38 @@ async fn reseed_handler(State(state): State<AppState>) -> Json<Value> {
     let mut guard = state.store.write().await;
     *guard = EngineStore::seeded();
     serialize_snapshot(&guard, state.gateway.config.has_live_credentials())
+}
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateWalletPolicyRequest {
+    pub max_per_purchase_usd: f64,
+    pub daily_cap_usd: f64,
+}
+
+async fn update_wallet_policy_handler(
+    State(state): State<AppState>,
+    Json(req): Json<UpdateWalletPolicyRequest>,
+) -> (StatusCode, Json<Value>) {
+    if !req.max_per_purchase_usd.is_finite()
+        || !req.daily_cap_usd.is_finite()
+        || req.max_per_purchase_usd <= 0.0
+        || req.daily_cap_usd <= 0.0
+        || req.max_per_purchase_usd > req.daily_cap_usd
+    {
+        return (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({
+                "code": "INVALID_WALLET_POLICY",
+                "message": "Per-purchase cap must be positive and less than or equal to daily linked-wallet cap."
+            })),
+        );
+    }
+
+    let mut guard = state.store.write().await;
+    guard.wallet.max_per_purchase_usd = (req.max_per_purchase_usd * 100.0).round() / 100.0;
+    guard.wallet.daily_cap_usd = (req.daily_cap_usd * 100.0).round() / 100.0;
+    let Json(snapshot) = serialize_snapshot(&guard, state.gateway.config.has_live_credentials());
+    (StatusCode::OK, Json(snapshot))
 }
 
 fn serialize_snapshot(store: &EngineStore, live_configured: bool) -> Json<Value> {
@@ -635,5 +668,48 @@ mod tests {
         )
         .await;
         assert_eq!(bad_code, StatusCode::UNAUTHORIZED);
+    }
+
+    #[tokio::test]
+    async fn updating_linked_wallet_policy_enforces_new_caps_and_rejects_invalid_bounds() {
+        let app = build_router();
+        let (bad_status, bad_body) = send_json(
+            &app,
+            "POST",
+            "/api/wallet/policy",
+            Some(json!({
+                "max_per_purchase_usd": 1800.0,
+                "daily_cap_usd": 1200.0
+            })),
+        )
+        .await;
+        assert_eq!(bad_status, StatusCode::UNPROCESSABLE_ENTITY);
+        assert_eq!(bad_body["code"], "INVALID_WALLET_POLICY");
+
+        let (ok_status, ok_body) = send_json(
+            &app,
+            "POST",
+            "/api/wallet/policy",
+            Some(json!({
+                "max_per_purchase_usd": 900.0,
+                "daily_cap_usd": 2500.0
+            })),
+        )
+        .await;
+        assert_eq!(ok_status, StatusCode::OK);
+        assert!((ok_body["wallet"]["max_per_purchase_usd"].as_f64().unwrap() - 900.0).abs() < 0.01);
+
+        let (stage_status, _) = send_json(
+            &app,
+            "POST",
+            "/api/runs/stage",
+            Some(json!({
+                "track": "agent_linked_checkout",
+                "prompt": "Order approved $750 studio display within raised $900 single cap",
+                "amount_usd": 750.0
+            })),
+        )
+        .await;
+        assert_eq!(stage_status, StatusCode::CREATED);
     }
 }
