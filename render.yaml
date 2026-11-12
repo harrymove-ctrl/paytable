@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: paytable-api
+    runtime: rust
+    rootDir: backend-rust
+    buildCommand: cargo build --release
+    startCommand: ./target/release/paytable-api
+    envVars:
+      - key: PORT
+        value: 4184
+      - key: PAYPAL_BASE_URL
+        value: https://api-m.sandbox.paypal.com
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: CHANNEL3_API_KEY
+        sync: false
+
+  - type: web
+    name: paytable-web
+    runtime: node
+    rootDir: web
+    buildCommand: npm ci && npm run build
+    startCommand: npx next start --port $PORT
+    envVars:
+      - key: PAYTABLE_API_ORIGIN
+        fromService:
+          type: web
+          name: paytable-api
+          envVarKey: RENDER_EXTERNAL_URL

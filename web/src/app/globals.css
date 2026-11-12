@@ -1,0 +1,26 @@
+@import "../styles/sodium/styles.css";
+
+/* Modern Web Guidance: native <dialog> scroll containment without body overflow lock */
+dialog.paytable-dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.paytable-dialog::backdrop {
+  background: var(--scrim);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Modern Web Guidance: responsive table container queries */
+.paytable-table-wrap {
+  container-type: inline-size;
+}
+
+/* Björk UI strict tabular figures across numeric readouts */
+[data-slot="status-strip-value"],
+[data-slot="progress-value"],
+[data-slot="meter-value"],
+.type-code,
+.type-code-sm {
+  font-variant-numeric: tabular-nums;
+}

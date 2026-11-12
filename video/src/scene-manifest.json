@@ -1,0 +1,101 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "voice_provider": "local_neural_say",
+  "launch_voice_provider": "local_neural_say",
+  "master_total_frames": 2400,
+  "launch_total_frames": 1200,
+  "master_scenes": [
+    {
+      "id": "s01_hook",
+      "start_frame": 0,
+      "duration_frames": 270,
+      "voice_offset_sec": 0.35,
+      "text": "PayPal just opened a huge door. New linked wallets for agents mean an AI agent can spend on your behalf, with approval on every purchase.",
+      "caption": "PayPal linked wallets let AI agents spend on your behalf, with approval on every purchase."
+    },
+    {
+      "id": "s02_tabletop",
+      "start_frame": 270,
+      "duration_frames": 300,
+      "voice_offset_sec": 0.3,
+      "text": "Meet PayTable. One shared tabletop where you prompt at paytable to shop, split group bills, invoice overseas clients, and move real money.",
+      "caption": "Meet PayTable: one shared tabletop to prompt @paytable and move real Sandbox funds."
+    },
+    {
+      "id": "s03_gate",
+      "start_frame": 570,
+      "duration_frames": 420,
+      "voice_offset_sec": 0.35,
+      "text": "Watch an agent source a studio monitor across three merchants, negotiate the price down to two hundred sixty five dollars, and pause right at the orange human gate.",
+      "caption": "Channel3 catalog search + A2A quote negotiation ($310 to $265), paused at Needs Approval."
+    },
+    {
+      "id": "s04_settle",
+      "start_frame": 990,
+      "duration_frames": 390,
+      "voice_offset_sec": 0.35,
+      "text": "Nothing leaves your PayPal wallet until you click Approve. One tap signs a cryptographic mandate, captures the Sandbox order, and locks carrier tracking.",
+      "caption": "One tap signs a SHA-256 mandate, captures PayPal Orders v2, and registers Shipment Tracking."
+    },
+    {
+      "id": "s05_tracks",
+      "start_frame": 1380,
+      "duration_frames": 420,
+      "voice_offset_sec": 0.35,
+      "text": "Switch presets in one click: scan a dinner receipt into PayPal QR shares, bill Berlin in euros with Pay Later, flag duplicate subscriptions, or pool neighborhood solar funds.",
+      "caption": "All 5 PayPal tracks: QR Dinner Split, EUR Pay Later + Creator Split, Budget Shield, Solar Pool."
+    },
+    {
+      "id": "s06_ledger",
+      "start_frame": 1800,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.35,
+      "text": "Every run reconciles live in AG Grid, while the Rust engine blocks overspend caps, catches card declines, and rejects duplicate replay keys.",
+      "caption": "Live AG Grid v36 ledger, APIMatic + MCP contracts, and fail-closed Rust spend guardrails."
+    },
+    {
+      "id": "s07_outro",
+      "start_frame": 2160,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.4,
+      "text": "PayTable. Linked PayPal wallets for AI agents, with human approval on every purchase.",
+      "caption": "PayTable \u00b7 Linked PayPal Wallets for AI Agents \u00b7 Open Source MIT"
+    }
+  ],
+  "launch_scenes": [
+    {
+      "id": "l01_hook",
+      "start_frame": 0,
+      "duration_frames": 270,
+      "voice_offset_sec": 0.3,
+      "text": "PayPal just opened a huge door. New linked wallets mean an AI agent can spend on your behalf, with approval on every purchase.",
+      "caption": "New linked PayPal wallets for AI agents, with approval on every purchase."
+    },
+    {
+      "id": "l02_gate",
+      "start_frame": 270,
+      "duration_frames": 330,
+      "voice_offset_sec": 0.3,
+      "text": "On PayTable, your agent negotiates a studio monitor down to two hundred sixty five dollars and pauses at the orange human approval gate.",
+      "caption": "Agent negotiates $310 down to $265 and halts at Sodium's orange Needs Approval gate."
+    },
+    {
+      "id": "l03_settle",
+      "start_frame": 600,
+      "duration_frames": 360,
+      "voice_offset_sec": 0.3,
+      "text": "One click signs a cryptographic mandate, settles PayPal Orders, splits QR dinner bills, and reconciles live in AG Grid.",
+      "caption": "1-click approval settles Orders v2, QR Dinner Splits, EUR Pay Later, and AG Grid."
+    },
+    {
+      "id": "l04_outro",
+      "start_frame": 960,
+      "duration_frames": 240,
+      "voice_offset_sec": 0.35,
+      "text": "PayTable. Collaborative agent commerce on PayPal Sandbox.",
+      "caption": "PayTable \u00b7 Built with Sodium, Rust, and PayPal Developer Sandbox"
+    }
+  ]
+}

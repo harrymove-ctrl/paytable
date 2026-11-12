@@ -1,0 +1,25 @@
+{
+  "name": "paytable-cinetic-video",
+  "version": "1.0.0",
+  "description": "PayTable Cinetic + Sodium Product Demo Film (Master 1:20 + X Launch 0:40)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "voice": "python3 scripts/synthesize_elevenlabs_voice.py",
+    "typecheck": "tsc --noEmit",
+    "render": "node scripts/render-videos.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "19.2.7",
+    "typescript": "5.9.3"
+  }
+}

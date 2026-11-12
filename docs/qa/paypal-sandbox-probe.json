@@ -1,0 +1,5 @@
+{
+  "mode": "judge_sandbox_deterministic",
+  "note": "Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET for live Sandbox REST execution",
+  "oauth_ok": false
+}
