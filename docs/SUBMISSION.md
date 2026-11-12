@@ -64,8 +64,10 @@ Designing for agentic finance means treating **human intent verification** as a 
 
 ### Try it out Links
 
-1. **Source Code Repository**: `https://github.com/harrymove-ctrl/paytable`
-2. **v2.0.0 Release & 60 FPS Videos**: `https://github.com/harrymove-ctrl/paytable/releases/tag/v2.0.0`
+1. **Live Production Application**: `https://paytable-production-9863f23a.up.railway.app`
+2. **Source Code Repository**: `https://github.com/harrymove-ctrl/paytable`
+3. **v2.0.0 Release & 60 FPS Videos**: `https://github.com/harrymove-ctrl/paytable/releases/tag/v2.0.0`
+4. **1-Click Render Blueprint (`render.yaml`)**: `https://dashboard.render.com/blueprint/new?repo=https://github.com/harrymove-ctrl/paytable`
 
 ### Project Media
 
@@ -92,9 +94,9 @@ Designing for agentic finance means treating **human intent verification** as a 
    `PayPal Tools (Sandbox https://api-m.sandbox.paypal.com): PayPal OAuth 2.0, Checkout Orders v2 (with PayPal-Request-Id UUID idempotency), Invoicing v2 + QR Code generation, Batch Payouts v1, Shipment Tracking v1, Transaction Search / Reporting v1 (with 31-day RFC 3339 sanitizer), HMAC-SHA256 Webhooks, @paypal/agent-toolkit (^1.11.0), and PayPal MCP Server (@paypal/mcp in .mcp.json). AI Tools & Models: Channel3 AI Product Discovery & A2A Quote Negotiation, Claude / Gemini coding & MCP tool-calling agents wired via @paypal/mcp + elevenlabs-mcp, and ElevenLabs neural dual-voice synthesis. A Rust (Axum/Tokio) policy engine gates every AI-staged run behind live spend caps ($500 single / $1,500 daily), SHA-256 mandates, and mandatory human approval before funds move.`
 8. **Additional Sponsor Tools Checked**: `AG Grid`, `APIMatic`, `Bryntum`, `Channel3`, `Render`
 9. **Public Code Repository URL**: `https://github.com/harrymove-ctrl/paytable`
-10. **Working Demo / Test Build URL**: `https://github.com/harrymove-ctrl/paytable/releases/tag/v2.0.0` (or live Render URL if deployed via `render.yaml`)
+10. **Working Demo / Test Build URL**: `https://paytable-production-9863f23a.up.railway.app`
 11. **Testing Instructions / Credentials**:
-    `Zero credentials required for instant testing: PayTable includes 1-Click Judge Sandbox Mode out of the box (plus live PayPal Sandbox mode when PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET are set in .env.local). Run "cargo run --manifest-path backend-rust/Cargo.toml" (:4184) and "cd web && npm install && npm run dev" (http://localhost:4104). Test all 5 PayPal tracks: (1) Stage a $265 Dell monitor checkout and click Approve Purchase to settle with a SHA-256 mandate, (2) tune wallet caps or trigger >$500 overspend (422 block) and INSTRUMENT_DECLINED (?debug=1), (3) inspect AG Grid v36 in [02] LEDGER, [03] SCHEDULE & SDK, and [04] LAUNCH & ASCII STUDIO, or run "cargo test --manifest-path backend-rust/Cargo.toml" (7/7 pass) and "npx playwright test".`
+    `Live Hosted Demo (zero credentials or setup required): Open https://paytable-production-9863f23a.up.railway.app (or https://paytable-production-9863f23a.up.railway.app/?debug=1 for the adversarial QA guardrail bar). Click any of the 5 PayPal tracks, stage a $265 Dell monitor checkout, and click Approve Purchase to settle with a SHA-256 mandate receipt. Test >$500 overspend (422 block), 409 replay protection, INSTRUMENT_DECLINED rollback, [02] LEDGER (AG Grid v36 + CSV export), [03] SCHEDULE & SDK, and [04] LAUNCH & ASCII STUDIO. Render Blueprint: https://dashboard.render.com/blueprint/new?repo=https://github.com/harrymove-ctrl/paytable. Local run: "cargo run --manifest-path backend-rust/Cargo.toml" (:4184) and "cd web && npm install && npm run dev" (:4104).`
 12. **Overall Experience Integrating PayPal (1 to 10)**: `9`
 13. **Overall Experience Feedback**:
     `Integrating PayPal Sandbox across OAuth 2.0, Orders v2, Invoicing v2 QR codes, Batch Payouts v1, Shipment Tracking v1, and @paypal/mcp was clean and predictable from Rust and TypeScript. PayPal-Request-Id idempotency headers and negative Sandbox error simulation made it straightforward to test replay protection and card declines deterministically. Adding native Batch Payouts v1 and Dispute evidence submission tools directly into the official @paypal/mcp and @paypal/agent-toolkit packages would make multi-party agentic workflows even smoother.`

@@ -2,6 +2,10 @@
 
 PayTable is a collaborative AI commerce tabletop built for **PayPal AI Hackathon: Build What's Next with PayPal and AI**. Inspired by Google Tabletop (`tabletop.google`) and engineered with the **Sodium** infrastructure design system (`design.how/systems/sodium`), **Björk UI** (`ui.isaiahbjork.com`), and **asciicn** (`64` shadcn ASCII shader and 3D scene primitives), PayTable lets people and teams prompt `@paytable` on one shared surface while enforcing **human approval on every linked-wallet purchase** before PayPal Sandbox funds move.
 
+1. **Hosted Live Production Demo**: https://paytable-production-9863f23a.up.railway.app
+2. **1-Click Render Cloud Blueprint (`render.yaml`)**: https://dashboard.render.com/blueprint/new?repo=https://github.com/harrymove-ctrl/paytable
+3. **v2.0.0 Release & 60 FPS Launch Films**: https://github.com/harrymove-ctrl/paytable/releases/tag/v2.0.0
+
 ## What Is New in PayTable v2.0
 
 1. **Interactive 4-Step Onboarding Guide**: A collapsible top-of-tabletop guide (`[01] Pick Track & Set Caps`, `[02] Customize & Stage`, `[03] Approve Every Purchase`, `[04] Mandate & ASCII Export`) teaches new users how every PayPal Linked Wallet workflow operates in seconds.
@@ -43,7 +47,7 @@ cargo test --manifest-path backend-rust/Cargo.toml
 cargo run --manifest-path backend-rust/Cargo.toml
 ```
 
-PayTable operates in two seamless modes:
+PayTable operates in two runtime modes:
 
 1. **Live PayPal Sandbox Mode**: Populate `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` in `.env.local` to execute live OAuth2, Orders v2, Invoicing v2, Payouts v1, and Reporting v1 calls against `https://api-m.sandbox.paypal.com`.
 2. **1-Click Judge Sandbox Mode**: With empty credentials, the Rust engine runs deterministic Sandbox state transitions, live wallet policy updates, SHA-256 mandate hashing, and negative error simulations out of the box.
